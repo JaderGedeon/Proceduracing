@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Acceleration",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "9208b09d-a8e6-4b8f-b40c-d635308f0cde",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Brake",
@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "Turning",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "af79e8fa-bcec-4e38-8e11-7dd9edb571b5",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [

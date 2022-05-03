@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WheelController : MonoBehaviour
 {
+    private RidingInputManager ridingInputManager;
 
     [Header("Colliders")]
     [SerializeField] private WheelCollider[] wheelColliders = new WheelCollider[4];
@@ -13,35 +14,34 @@ public class WheelController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private int motorTorque;
+    [SerializeField] private int brakeTorque;
     [SerializeField] private float steeringMax;
+    [SerializeField] private float steeringSpeed;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        ridingInputManager = GetComponent<RidingInputManager>();
+    }
+
     void FixedUpdate()
     {
-
         AnimateWheels();
+        MoveVehicle();
+    }
 
-        if (Input.GetKey(KeyCode.W))
+    private void MoveVehicle() 
+    {
+        for (int i = 0; i < wheelColliders.Length; i++)
         {
-            for (int i = 0; i < wheelColliders.Length; i++)
-            {
-                wheelColliders[i].motorTorque = motorTorque;
-            }
+            wheelColliders[i].motorTorque = ridingInputManager.acceleration * motorTorque;
+            wheelColliders[i].brakeTorque = ridingInputManager.brake * brakeTorque;
         }
 
-        if (Input.GetAxis("Horizontal") != 0)
+        for (int i = 0; i < wheelColliders.Length - 2; i++)
         {
-            for (int i = 0; i < wheelColliders.Length - 2; i++)
-            {
-                wheelColliders[i].steerAngle = Input.GetAxis("Horizontal") * steeringMax;
-            }
-        }
-        else 
-        {
-            for (int i = 0; i < wheelColliders.Length - 2; i++)
-            {
-                wheelColliders[i].steerAngle = 0;
-            }
+            wheelColliders[i].steerAngle = Mathf.Lerp(wheelColliders[i].steerAngle,
+                ridingInputManager.turning * steeringMax,
+                steeringSpeed * Time.deltaTime);
         }
     }
 

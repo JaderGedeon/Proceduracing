@@ -28,13 +28,13 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
             ""id"": ""b14bba94-2a02-44fc-a916-6204f3a954db"",
             ""actions"": [
                 {
-                    ""name"": "" Acceleration"",
-                    ""type"": ""Button"",
+                    ""name"": ""Acceleration"",
+                    ""type"": ""Value"",
                     ""id"": ""9208b09d-a8e6-4b8f-b40c-d635308f0cde"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Brake"",
@@ -47,12 +47,12 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Turning"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""af79e8fa-bcec-4e38-8e11-7dd9edb571b5"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -107,7 +107,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": "" Acceleration"",
+                    ""action"": ""Acceleration"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -118,7 +118,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": "" Acceleration"",
+                    ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -129,7 +129,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": "" Acceleration"",
+                    ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -140,7 +140,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
 }");
         // Riding
         m_Riding = asset.FindActionMap("Riding", throwIfNotFound: true);
-        m_Riding_Acceleration = m_Riding.FindAction(" Acceleration", throwIfNotFound: true);
+        m_Riding_Acceleration = m_Riding.FindAction("Acceleration", throwIfNotFound: true);
         m_Riding_Brake = m_Riding.FindAction("Brake", throwIfNotFound: true);
         m_Riding_Turning = m_Riding.FindAction("Turning", throwIfNotFound: true);
     }
