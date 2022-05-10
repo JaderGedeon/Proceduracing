@@ -35,6 +35,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x < size.x; x++)
             {
+
                 vertices[i] = new Vector3(topLeft.x + x , noiseMap[x,z].height * heightMultiplier, topLeft.y - z);
                 i++;
             }

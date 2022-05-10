@@ -27,4 +27,13 @@ public class MapDisplay : MonoBehaviour
         textureRenderer.sharedMaterial.mainTexture = texture;
 
     }
+
+    public void DrawVoronoiMap(Color[] voronoiMap, Vector2Int mapSize) {
+
+        Texture2D voronoiTexture = new Texture2D(mapSize.x, mapSize.y);
+        voronoiTexture.SetPixels(voronoiMap);
+        voronoiTexture.Apply();
+
+        textureRenderer.sharedMaterial.mainTexture = voronoiTexture;
+    }
 }

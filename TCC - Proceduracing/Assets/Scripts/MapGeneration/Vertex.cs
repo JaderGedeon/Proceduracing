@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Vertex
 {
-    public float height;
+    public float height; // ( Y: Coluna, X: Linha (Y,X))
 
     public Vertex(float height)
     {
