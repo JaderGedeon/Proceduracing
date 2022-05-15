@@ -5,97 +5,127 @@ using UnityEngine;
 
 public class MeshGenerator : MonoBehaviour
 {
-    [SerializeField] MeshFilter meshFilter;
-    [SerializeField] MeshCollider meshCollider;
-    private Vector2Int size;
+    public static Mesh GenerateTerrainMesh(Vertex[,] noiseMap, float heightMultiplier, bool flatShading)
+    {
+        Vector2Int meshSize = new Vector2Int(noiseMap.GetLength(0), noiseMap.GetLength(1));
+        Vector2 topLeft = new Vector2((meshSize.x - 1) / -2f, (meshSize.y - 1) / 2f);
 
-    Vector2 topLeft;
+        MeshData meshData = new MeshData(meshSize, flatShading);
+        int vertexIndex = 0;
 
-    public void Generate(Vector2Int mapSize, Vertex[,] noiseMap, float heightMultiplier) {
-        size = mapSize;
-        topLeft = new Vector2((mapSize.x - 1) / -2f, (mapSize.y - 1) / 2f);
-
-        Mesh mesh = new Mesh();
-        mesh.vertices = CreateVertices(noiseMap, heightMultiplier);
-        mesh.triangles = CreateTriangles();
-        mesh.uv = CreateUVs();
-
-        mesh.RecalculateNormals();
-        meshFilter.sharedMesh = mesh;
-        meshCollider.sharedMesh = mesh;
-    }
-
-    // Distribui os pontos dos vértices ao longo de toda a malha, armazeando-os num só array de Vec3.
-    private Vector3[] CreateVertices(Vertex[,] noiseMap, float heightMultiplier) {
-
-        Vector3[] vertices = new Vector3[size.x * size.y];
-
-        int i = 0;
-        for (int z = 0; z < size.y; z++)
+        for (int y = 0; y < meshSize.y; y++)
         {
-            for (int x = 0; x < size.x; x++)
+            for (int x = 0; x < meshSize.x; x++)
             {
+                meshData.vertices[vertexIndex] = new Vector3(topLeft.x + x, noiseMap[x, y].height * heightMultiplier, topLeft.y - y);
+                meshData.uvs[vertexIndex] = new Vector2(x / (float)meshSize.x, y / (float)meshSize.y);
 
-                vertices[i] = new Vector3(topLeft.x + x , noiseMap[x,z].height * heightMultiplier, topLeft.y - z);
-                i++;
-            }
-        }
-        return vertices;
-    }
-
-    /* Contrói os triângulos baseado num sentido horário da posição dos pontos, armazeando-os num só array de Vec3.
-
-    1 ─ ─ ─ 3
-    ¦       ¦
-    ¦   X   ¦
-    ¦       ¦
-    0 ─ ─ ─ 2       
-
-    */
-    private int[] CreateTriangles() {
-
-        int[] triangles = new int[(size.x - 1) * (size.y - 1) * 6];
-
-        int vert = 0, tris = 0;
-
-        for (int z = 0; z < size.y; z++)
-        {
-            for (int x = 0; x < size.x; x++)
-            {
-                if (x < size.x - 1 && z < size.y - 1) {
-
-                    triangles[tris] = vert;
-                    triangles[tris + 1] = vert + size.x + 1;
-                    triangles[tris + 2] = vert + size.x;
-                    triangles[tris + 3] = vert + size.x + 1;
-                    triangles[tris + 4] = vert;
-                    triangles[tris + 5] = vert + 1;
-
-                    vert++;
-                    tris += 6;
-
+                if (x < meshSize.x - 1 && y < meshSize.y - 1)
+                {
+                    meshData.AddTriangle(vertexIndex, vertexIndex + meshSize.y + 1, vertexIndex + meshSize.y);
+                    meshData.AddTriangle(vertexIndex + meshSize.y + 1, vertexIndex, vertexIndex + 1);
                 }
+
+                vertexIndex++;
             }
-            vert++;
         }
 
-        return triangles;
+        return meshData.CreateMesh();
+    }
+}
+
+public class MeshData
+{
+    public Vector3[] vertices;
+    public int[] triangles;
+    public Vector2[] uvs;
+
+    int triangleIndex;
+    bool flatShading;
+
+    public MeshData(Vector2Int meshSize, bool flatShading)
+    {
+        vertices = new Vector3[meshSize.x * meshSize.y];
+        uvs = new Vector2[meshSize.x * meshSize.y];
+        triangles = new int[(meshSize.x - 1) * (meshSize.y - 1) * 6];
+        this.flatShading = flatShading;
     }
 
-    private Vector2[] CreateUVs() {
+    public void AddTriangle(int a, int b, int c)
+    {
+        triangles[triangleIndex] = a;
+        triangles[triangleIndex + 1] = b;
+        triangles[triangleIndex + 2] = c;
+        triangleIndex += 3;
+    }
 
-        Vector2[] uvs = new Vector2[size.x * size.y];
+    Vector3[] CalculateNormals() 
+    {
+        Vector3[] vertexNormals = new Vector3[vertices.Length];
+        int triangleCount = triangles.Length;
 
-        int i = 0;
-        for (int z = 0; z < size.y; z++)
+        for (int i = 0; i < triangleCount - 3; i++)
         {
-            for (int x = 0; x < size.x; x++)
-            {
-                uvs[i] = new Vector2(x / (float)size.x, z / (float)size.y);
-                i++;
-            }
+            int normalTriangleIndex = i;
+            int vertexIndexA = triangles[normalTriangleIndex];
+            int vertexIndexB = triangles[normalTriangleIndex + 1];
+            int vertexIndexC = triangles[normalTriangleIndex + 2];
+
+            Vector3 triangleNormal = SurfaceNormalFromIndices(vertexIndexA, vertexIndexB, vertexIndexC);
+            vertexNormals[vertexIndexA] += triangleNormal;
+            vertexNormals[vertexIndexB] += triangleNormal;
+            vertexNormals[vertexIndexC] += triangleNormal;
         }
 
-        return uvs;
+        for (int i = 0; i < vertexNormals.Length; i++)
+        {
+            vertexNormals[i].Normalize();
+        }
+
+        return vertexNormals;
+    }
+
+    Vector3 SurfaceNormalFromIndices(int indexA, int indexB, int indexC)
+    {
+        Vector3 pointA = vertices[indexA];
+        Vector3 pointB = vertices[indexB];
+        Vector3 pointC = vertices[indexC];
+
+        Vector3 sideAB = pointB - pointA;
+        Vector3 sideAC = pointC - pointA;
+        return Vector3.Cross(sideAB, sideAC).normalized;
+    }
+
+    public Mesh CreateMesh()
+    {
+        Mesh mesh = new Mesh();
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.uv = uvs;
+        if (flatShading)
+        {
+            FlatShading();
+            mesh.RecalculateNormals();
+        }
+        else 
+        {
+            mesh.normals = CalculateNormals();
+        }
+        return mesh;
+    }
+
+    void FlatShading() {
+        Vector3[] flatShadedVertices = new Vector3[triangles.Length];
+        Vector2[] flatShadedUvs = new Vector2[triangles.Length];
+
+        for (int i = 0; i < triangles.Length; i++)
+        {
+            flatShadedVertices[i] = vertices[triangles[i]];
+            flatShadedUvs[i] = uvs[triangles[i]];
+            triangles[i] = i;
+        }
+
+        vertices = flatShadedVertices;
+        uvs = flatShadedUvs;
     }
 }

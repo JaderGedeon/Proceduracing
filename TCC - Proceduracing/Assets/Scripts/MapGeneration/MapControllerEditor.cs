@@ -12,6 +12,7 @@ public class MapControllerEditor : Editor
 
         if (DrawDefaultInspector())
         {
+            mapController.GetAllComponents();
             mapController.GenerateMap();
         }
     }
