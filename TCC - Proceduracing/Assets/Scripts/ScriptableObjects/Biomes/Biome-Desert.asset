@@ -17,7 +17,8 @@ MonoBehaviour:
   friction: 1.4
   structures:
   - {fileID: 11400000, guid: f860f676305347744a36b8c217386b05, type: 2}
-  vegetation: []
+  vegetation:
+  - {fileID: 11400000, guid: dcdab26768005594d86bd52dca3da3bd, type: 2}
   colors:
   - color:
       serializedVersion: 2
