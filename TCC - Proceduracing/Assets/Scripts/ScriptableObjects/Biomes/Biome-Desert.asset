@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Biome-Desert
   m_EditorClassIdentifier: 
   rarity: 0
-  heightMultiplier: 3.1
-  friction: 1.4
+  heightMultiplier: 4.48
+  friction: 0.23
   structures:
   - {fileID: 11400000, guid: f860f676305347744a36b8c217386b05, type: 2}
   vegetation:
@@ -22,7 +22,7 @@ MonoBehaviour:
   colors:
   - color:
       serializedVersion: 2
-      rgba: 4280995771
+      rgba: 4279920093
     minHeight: 66.23
     maxHeight: 138
   - color:

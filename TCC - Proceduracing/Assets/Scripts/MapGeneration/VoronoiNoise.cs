@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using UnityEngine;
 
 public class VoronoiNoise : MonoBehaviour
@@ -6,15 +7,17 @@ public class VoronoiNoise : MonoBehaviour
     public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, int regionAmount, float regionMinimumInfluence) {
 
         Vertex[,] noiseMap = new Vertex[mapSize.x, mapSize.y];
-        Vector2[] regions = new Vector2[regionAmount];
-        Color[] regionColors = new Color[regionAmount];
+        Region[] regions = new Region[regionAmount];
+
+        // OTIMIZAR ESSA LINHA BUSCANDO TODOS NA PASTA E.E
+        BiomeScriptableObject[] biomeList = (BiomeScriptableObject[])Resources.FindObjectsOfTypeAll(typeof(BiomeScriptableObject));
+        Debug.Log(biomeList.Length);
 
         System.Random prgn = new System.Random(seed);
 
         for (int i = 0; i < regionAmount; i++)
         {
-            regions[i] = new Vector2(prgn.Next(0, mapSize.x), prgn.Next(0, mapSize.y));
-            regionColors[i] = new Color(prgn.Next(0, 255) / 255f, prgn.Next(0, 255) / 255f, prgn.Next(0, 255) / 255f);
+            regions[i] = new Region(new Vector2(prgn.Next(0, mapSize.x), prgn.Next(0, mapSize.y)), biomeList[i]);
         }
 
         for (int y = 0; y < mapSize.y; y++)
@@ -29,7 +32,7 @@ public class VoronoiNoise : MonoBehaviour
 
                 for (int i = 0; i < regionAmount; i++)
                 {
-                    regionDistances[i] = Vector2.Distance(new Vector2(y, (mapSize.x - 1 - x)), regions[i]);
+                    regionDistances[i] = Vector2.Distance(new Vector2(y, (mapSize.x - 1 - x)), regions[i].CenterPosition);
                     sum += regionDistances[i];
                 }
 
@@ -50,9 +53,7 @@ public class VoronoiNoise : MonoBehaviour
 
                     if (regionInfluence <= regionMinimumInfluence)
                     {
-                        gradiantPixelColor.r += regionColors[i].r * regionInfluence;
-                        gradiantPixelColor.g += regionColors[i].g * regionInfluence;
-                        gradiantPixelColor.b += regionColors[i].b * regionInfluence;
+                        gradiantPixelColor = regions[i].Biome.colors[0].color;
                     }
                     else
                     {
@@ -66,9 +67,7 @@ public class VoronoiNoise : MonoBehaviour
 
                 if (maxInfluence != -1f)
                 {
-                    gradiantPixelColor.r = regionColors[value].r;
-                    gradiantPixelColor.g = regionColors[value].g;
-                    gradiantPixelColor.b = regionColors[value].b;
+                    gradiantPixelColor = regions[value].Biome.colors[0].color;
                 }
 
                 noiseMap[x, y] = new Vertex(gradiantPixelColor);
@@ -77,4 +76,19 @@ public class VoronoiNoise : MonoBehaviour
 
         return noiseMap;
     }  
+}
+
+public class Region
+{
+    private Vector2 centerPosition;
+    private BiomeScriptableObject biome;
+
+    public Region(Vector2 centerPosition, BiomeScriptableObject biome)
+    {
+        this.centerPosition = centerPosition;
+        this.biome = biome;
+    }
+
+    public Vector2 CenterPosition { get => centerPosition; set => centerPosition = value; }
+    public BiomeScriptableObject Biome { get => biome; set => biome = value; }
 }
