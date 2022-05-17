@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarity: 0
   heightMultiplier: 1
-  friction: 0.2
+  friction: 0.6
   structures: []
   vegetation: []
   colors:

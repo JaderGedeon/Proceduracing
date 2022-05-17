@@ -36,6 +36,14 @@ public class MapController : MonoBehaviour
 
     private Vertex[,] voronoiMap;
 
+    [Header("Race Settings")]
+    [SerializeField] private GameObject checkPointGameObject;
+    [SerializeField] private int checkPointsAmount;
+    [SerializeField] private float minDistanceBetweenPoints;
+    [Range(0f, 1f)]
+    [SerializeField] private float border;
+    [SerializeField] private int checkPointsCollected;
+
     [Header("Internal")]
 
     private MeshFilter meshFilter;
@@ -46,6 +54,7 @@ public class MapController : MonoBehaviour
     {
         GetAllComponents();
         GenerateMap();
+        CheckPoint.CheckPointCaught += CheckPointCollected;
     }
 
     public void GetAllComponents() {
@@ -61,6 +70,7 @@ public class MapController : MonoBehaviour
         vertexMap = new Vertex[mapSize.x, mapSize.y];
         noiseMap = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
         voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinimumInfluence);
+        RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
 
         AssignValuesToVertex();
 
@@ -117,6 +127,25 @@ public class MapController : MonoBehaviour
         texture.Apply();
 
         meshRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    private void CheckPointCollected() {
+        checkPointsCollected += 1;
+        Debug.Log(checkPointsCollected);
+    }
+
+    void OnGUI()
+    {
+        int w = Screen.width, h = Screen.height;
+
+        GUIStyle style = new GUIStyle();
+
+        Rect rect = new Rect(20, 0, w + 10, h * 2 / 100);
+        style.alignment = TextAnchor.UpperLeft;
+        style.fontSize = h * 8 / 100;
+        style.normal.textColor = new Color(0f, 0f, 0f, 1.0f);
+        string text = (checkPointsCollected + " / " + checkPointsAmount);
+        GUI.Label(rect, text, style);
     }
 
     private void OnDrawGizmos()
