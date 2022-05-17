@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 enum DisplayMode
 {
@@ -15,9 +12,12 @@ public class MapController : MonoBehaviour
     [SerializeField] private GameObject terrain;
     [SerializeField] private Vector2Int mapSize;
     [SerializeField] private int seed;
+    [SerializeField] private bool randomSeed;
     [SerializeField] private Vector2 offset;
     [SerializeField] private DisplayMode displayMode;
     [SerializeField] bool flatShading;
+
+    private Vertex[,] vertexMap;
 
     [Header("Perlin Settings")]
     [SerializeField] private float noiseScale;
@@ -56,15 +56,44 @@ public class MapController : MonoBehaviour
 
     public void GenerateMap()
     {
+        if (randomSeed)
+            seed = Random.Range(0, 100000);
+        vertexMap = new Vertex[mapSize.x, mapSize.y];
         noiseMap = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
         voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinimumInfluence);
+
+        AssignValuesToVertex();
+
         GenerateMesh();
         DisplayMap();
+
+        PassMapToWheels();
+    }
+
+    private void PassMapToWheels()
+    {
+        FindObjectOfType<WheelController>().GetComponent<WheelController>().MapFrictionInfo = vertexMap;
+    }
+
+    private void AssignValuesToVertex()
+    {
+        for (int y = 0; y < mapSize.y; y++)
+        {
+            for (int x = 0; x < mapSize.x; x++)
+            {
+                vertexMap[x, y] = new Vertex()
+                {
+                    height = noiseMap[x, y].height,
+                    biome = voronoiMap[x, y].biome,
+                };
+                //Debug.Log(vertexMap[x, y].ToString());
+            }
+        }
     }
 
     public void GenerateMesh()
     {
-        Mesh mesh = MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier, flatShading);
+        Mesh mesh = MeshGenerator.GenerateTerrainMesh(vertexMap, heightMultiplier, flatShading);
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
     }
@@ -76,11 +105,11 @@ public class MapController : MonoBehaviour
         switch (displayMode)
         {
             case DisplayMode.NoiseMap:
-                texture.SetPixels32(MapDisplay.DrawNoiseMap(noiseMap));
+                texture.SetPixels32(MapDisplay.DrawNoiseMap(vertexMap));
                 break;
 
             case DisplayMode.VoronoiMap:
-                texture.SetPixels32(MapDisplay.DrawVoronoiMap(voronoiMap));
+                texture.SetPixels32(MapDisplay.DrawVoronoiMap(vertexMap));
                 break;
         }
 
@@ -88,5 +117,20 @@ public class MapController : MonoBehaviour
         texture.Apply();
 
         meshRenderer.sharedMaterial.mainTexture = texture;
+    }
+
+    private void OnDrawGizmos()
+    {
+       /* for (int y = 0; y < vertexMap.GetLength(0); y++)
+        {
+            for (int x = 0; x < vertexMap.GetLength(1); x++)
+            {
+                //if (vertexMap[x, y].biome.friction == 0.5f) {
+                    Gizmos.color = vertexMap[x, y].biome.colors[0].color;
+                    Gizmos.DrawSphere(new Vector3(x, 0, y), 0.2f);
+                //}
+            }
+        }
+       */
     }
 }

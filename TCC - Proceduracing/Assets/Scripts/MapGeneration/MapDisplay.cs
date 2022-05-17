@@ -28,7 +28,7 @@ public class MapDisplay : MonoBehaviour
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                colourMap[y * mapSize.y + x] = voronoiMap[x, y].colour;
+                colourMap[y * mapSize.y + x] = voronoiMap[x, y].biome.colors[0].color;
             }
         }
         return colourMap;

@@ -8,6 +8,7 @@ public class RidingInputManager : MonoBehaviour
     public float acceleration;
     public int brake;
     public float turning;
+    public bool untap;
 
     public void Acceleration(InputAction.CallbackContext ctx)
     {
@@ -21,4 +22,13 @@ public class RidingInputManager : MonoBehaviour
     {
         turning = ctx.ReadValue<float>();
     }
+
+    /*
+    public void Untap(InputAction.CallbackContext ctx)
+    {
+        untap = ctx.started || ctx.canceled;
+        Debug.Log(!ctx.canceled);
+        Debug.Log(ctx.phase != InputActionPhase.Performed);
+    }
+    */
 }

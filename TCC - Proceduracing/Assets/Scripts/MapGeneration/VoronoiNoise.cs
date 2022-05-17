@@ -1,29 +1,53 @@
+using System.Linq;
 using System.Collections;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class VoronoiNoise : MonoBehaviour
 {
     public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, int regionAmount, float regionMinimumInfluence) {
 
-        Vertex[,] noiseMap = new Vertex[mapSize.x, mapSize.y];
+        Vertex[,] vertexMap = new Vertex[mapSize.x, mapSize.y];
         Region[] regions = new Region[regionAmount];
 
-        // OTIMIZAR ESSA LINHA BUSCANDO TODOS NA PASTA E.E
-        BiomeScriptableObject[] biomeList = (BiomeScriptableObject[])Resources.FindObjectsOfTypeAll(typeof(BiomeScriptableObject));
-        Debug.Log(biomeList.Length);
+        // OTIMIZAR ESSA LINHA     
+        List<BiomeScriptableObject> biomeList = Resources.LoadAll<BiomeScriptableObject>("Data/ScriptableObjects/Biomes").ToList();
+        Debug.Log(biomeList.Count);
 
         System.Random prgn = new System.Random(seed);
 
         for (int i = 0; i < regionAmount; i++)
         {
-            regions[i] = new Region(new Vector2(prgn.Next(0, mapSize.x), prgn.Next(0, mapSize.y)), biomeList[i]);
+            regions[i] = new Region(new Vector2(prgn.Next(0, mapSize.x), prgn.Next(0, mapSize.y)), biomeList[prgn.Next(0, biomeList.Count)]);
+            Debug.Log("X:" + (regions[i].CenterPosition.x) + " | Y: "+(regions[i].CenterPosition.y) + " | Color: " + regions[i].Biome.colors[0].color);
         }
 
         for (int y = 0; y < mapSize.y; y++)
         {
             for (int x = 0; x < mapSize.x; x++)
             {
+                int nearRegionValue = 0;
+                float nearRegionDistance = Mathf.Infinity;
+
+                for (int i = 0; i < regionAmount; i++)
+                {
+                    var distance = Vector2.Distance(new Vector2(x, y), regions[i].CenterPosition);
+
+                    if (nearRegionDistance >= distance)
+                    {
+                        nearRegionDistance = distance;
+                        nearRegionValue = i;
+                    }
+                }
+
+                vertexMap[x, y] = new Vertex()
+                {
+                    biome = regions[nearRegionValue].Biome,
+                };
+
+                /*
+                
                 float[] regionDistances = new float[regionAmount];
                 float sum = 0;
 
@@ -53,7 +77,9 @@ public class VoronoiNoise : MonoBehaviour
 
                     if (regionInfluence <= regionMinimumInfluence)
                     {
-                        gradiantPixelColor = regions[i].Biome.colors[0].color;
+                        gradiantPixelColor.r += regions[i].Biome.colors[0].color.r;
+                        gradiantPixelColor.g += regions[i].Biome.colors[0].color.g;
+                        gradiantPixelColor.b += regions[i].Biome.colors[0].color.b;
                     }
                     else
                     {
@@ -70,12 +96,16 @@ public class VoronoiNoise : MonoBehaviour
                     gradiantPixelColor = regions[value].Biome.colors[0].color;
                 }
 
-                noiseMap[x, y] = new Vertex(gradiantPixelColor);
+                vertexMap[x, y] = new Vertex()
+                {
+                    colour = gradiantPixelColor
+                };
+            }
+            */
             }
         }
-
-        return noiseMap;
-    }  
+        return vertexMap;
+    }
 }
 
 public class Region

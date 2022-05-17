@@ -53,6 +53,15 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Untap"",
+                    ""type"": ""Button"",
+                    ""id"": ""38aa9590-24d4-44eb-aeb8-9aa245f791f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3af10eaf-db77-4c82-b07d-aebfcc452f0b"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Untap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
         m_Riding_Acceleration = m_Riding.FindAction("Acceleration", throwIfNotFound: true);
         m_Riding_Brake = m_Riding.FindAction("Brake", throwIfNotFound: true);
         m_Riding_Turning = m_Riding.FindAction("Turning", throwIfNotFound: true);
+        m_Riding_Untap = m_Riding.FindAction("Untap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +226,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Riding_Acceleration;
     private readonly InputAction m_Riding_Brake;
     private readonly InputAction m_Riding_Turning;
+    private readonly InputAction m_Riding_Untap;
     public struct RidingActions
     {
         private @CarControls m_Wrapper;
@@ -212,6 +234,7 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
         public InputAction @Acceleration => m_Wrapper.m_Riding_Acceleration;
         public InputAction @Brake => m_Wrapper.m_Riding_Brake;
         public InputAction @Turning => m_Wrapper.m_Riding_Turning;
+        public InputAction @Untap => m_Wrapper.m_Riding_Untap;
         public InputActionMap Get() { return m_Wrapper.m_Riding; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +253,9 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                 @Turning.started -= m_Wrapper.m_RidingActionsCallbackInterface.OnTurning;
                 @Turning.performed -= m_Wrapper.m_RidingActionsCallbackInterface.OnTurning;
                 @Turning.canceled -= m_Wrapper.m_RidingActionsCallbackInterface.OnTurning;
+                @Untap.started -= m_Wrapper.m_RidingActionsCallbackInterface.OnUntap;
+                @Untap.performed -= m_Wrapper.m_RidingActionsCallbackInterface.OnUntap;
+                @Untap.canceled -= m_Wrapper.m_RidingActionsCallbackInterface.OnUntap;
             }
             m_Wrapper.m_RidingActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +269,9 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
                 @Turning.started += instance.OnTurning;
                 @Turning.performed += instance.OnTurning;
                 @Turning.canceled += instance.OnTurning;
+                @Untap.started += instance.OnUntap;
+                @Untap.performed += instance.OnUntap;
+                @Untap.canceled += instance.OnUntap;
             }
         }
     }
@@ -252,5 +281,6 @@ public partial class @CarControls : IInputActionCollection2, IDisposable
         void OnAcceleration(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnTurning(InputAction.CallbackContext context);
+        void OnUntap(InputAction.CallbackContext context);
     }
 }

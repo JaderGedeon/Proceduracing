@@ -8,7 +8,7 @@ public class MeshGenerator : MonoBehaviour
     public static Mesh GenerateTerrainMesh(Vertex[,] noiseMap, float heightMultiplier, bool flatShading)
     {
         Vector2Int meshSize = new Vector2Int(noiseMap.GetLength(0), noiseMap.GetLength(1));
-        Vector2 topLeft = new Vector2((meshSize.x - 1) / -2f, (meshSize.y - 1) / 2f);
+        Vector2 topLeft = new Vector2((meshSize.x - 1) , (meshSize.y - 1) / 2f);
 
         MeshData meshData = new MeshData(meshSize, flatShading);
         int vertexIndex = 0;
@@ -17,13 +17,16 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x < meshSize.x; x++)
             {
-                meshData.vertices[vertexIndex] = new Vector3(topLeft.x + x, noiseMap[x, y].height * heightMultiplier, topLeft.y - y);
+                meshData.vertices[vertexIndex] = new Vector3(x, noiseMap[x, y].height * heightMultiplier, y);
                 meshData.uvs[vertexIndex] = new Vector2(x / (float)meshSize.x, y / (float)meshSize.y);
 
                 if (x < meshSize.x - 1 && y < meshSize.y - 1)
                 {
-                    meshData.AddTriangle(vertexIndex, vertexIndex + meshSize.y + 1, vertexIndex + meshSize.y);
-                    meshData.AddTriangle(vertexIndex + meshSize.y + 1, vertexIndex, vertexIndex + 1);
+                    meshData.AddTriangle(vertexIndex, vertexIndex + meshSize.y, vertexIndex + meshSize.y + 1);
+                    meshData.AddTriangle(vertexIndex + meshSize.y + 1, vertexIndex + 1, vertexIndex);
+
+                    //meshData.AddTriangle(vertexIndex, vertexIndex + meshSize.y + 1, vertexIndex + meshSize.y);
+                    //meshData.AddTriangle(vertexIndex + meshSize.y + 1, vertexIndex, vertexIndex + 1);
                 }
 
                 vertexIndex++;

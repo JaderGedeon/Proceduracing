@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class WheelController : MonoBehaviour
 {
     private RidingInputManager ridingInputManager;
+    private Vertex[,] mapFriction;
 
     [Header("Colliders")]
     [SerializeField] private WheelCollider[] wheelColliders = new WheelCollider[4];
@@ -18,6 +20,8 @@ public class WheelController : MonoBehaviour
     [SerializeField] private float steeringMax;
     [SerializeField] private float steeringSpeed;
 
+    public Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
+
     private void Start()
     {
         ridingInputManager = GetComponent<RidingInputManager>();
@@ -25,8 +29,25 @@ public class WheelController : MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateWheelFricton();
         AnimateWheels();
         MoveVehicle();
+    }
+
+    private void UpdateWheelFricton()
+    {
+        for (int i = 0; i < wheelColliders.Length; i++)
+        {
+            if (wheelColliders[i].isGrounded)
+            {
+                wheelColliders[i].GetGroundHit(out WheelHit hit);
+                WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
+                frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].biome.friction;
+                // QQ coisa, divide pela escala /
+                wheelColliders[i].forwardFriction = frictionCurve;
+                Debug.Log(frictionCurve.stiffness);
+            }
+        }
     }
 
     private void MoveVehicle() 
