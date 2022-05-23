@@ -31,11 +31,8 @@ public class MapController : MonoBehaviour
     private Vertex[,] noiseMap;
 
     [Header("Voronoi Settings")]
-    [Range(1, 4)]
+    [Range(1, 2)]
     [SerializeField] private int regionAmount;
-    [SerializeField] private float regionMinimumInfluence;
-    [Range(1,254)]
-    [SerializeField] private int centralArea;
     [SerializeField] private Vector2Int regionMinMaxRadius;
     [Range(0,1f)]
     [SerializeField] private float regionTransition;
@@ -84,7 +81,7 @@ public class MapController : MonoBehaviour
             seed = Random.Range(0, 100000);
         vertexMap = new Vertex[mapSize.x, mapSize.y];
         noiseMap = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
-        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinimumInfluence, centralArea, regionMinMaxRadius, regionTransition);
+        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinMaxRadius, regionTransition);
         RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
 
         AssignValuesToVertex();
