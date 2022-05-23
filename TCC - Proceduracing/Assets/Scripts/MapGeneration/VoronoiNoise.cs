@@ -6,119 +6,133 @@ using System.Collections.Generic;
 
 public class VoronoiNoise : MonoBehaviour
 {
-    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, int regionAmount, float regionMinimumInfluence) {
-
+    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, int regionAmount, float regionMinimumInfluence, int maxCentralArea, Vector2Int minMaxRadius, float biomeTransition)
+    {
         Vertex[,] vertexMap = new Vertex[mapSize.x, mapSize.y];
-        Region[] regions = new Region[regionAmount];
+        SubRegion[] regions = new SubRegion[regionAmount];
+        Vector2Int centralPoint = new Vector2Int(mapSize.x / 2, mapSize.y / 2);
 
         // OTIMIZAR ESSA LINHA     
         List<BiomeScriptableObject> biomeList = Resources.LoadAll<BiomeScriptableObject>("Data/ScriptableObjects/Biomes").ToList();
-        Debug.Log(biomeList.Count);
+
+        Region baseRegion = new Region(null);
 
         System.Random prgn = new System.Random(seed);
 
-        for (int i = 0; i < regionAmount; i++)
+        List<Vector2> biomePoints = PoissonDiscSampling.GeneratePoints(minMaxRadius.y, seed, mapSize, 200, regionAmount);
+
+        for (int i = -1; i < regionAmount; i++)
         {
-            regions[i] = new Region(new Vector2(prgn.Next(0, mapSize.x), prgn.Next(0, mapSize.y)), biomeList[prgn.Next(0, biomeList.Count)]);
-            Debug.Log("X:" + (regions[i].CenterPosition.x) + " | Y: "+(regions[i].CenterPosition.y) + " | Color: " + regions[i].Biome.colors[0].color);
+            BiomeScriptableObject biome = biomeList[prgn.Next(0, biomeList.Count)];
+            float radius = prgn.Next(minMaxRadius.x, minMaxRadius.y);
+
+            if (i == -1)
+                baseRegion = new Region(biome);
+            else
+                regions[i] = new SubRegion(biomePoints[i], biome, radius);
         }
 
         for (int y = 0; y < mapSize.y; y++)
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                int nearRegionValue = 0;
-                float nearRegionDistance = Mathf.Infinity;
+                RegionDistance[] regionDist = new RegionDistance[regionAmount];
+                bool outsideSubRegion = false;
 
                 for (int i = 0; i < regionAmount; i++)
                 {
-                    var distance = Vector2.Distance(new Vector2(x, y), regions[i].CenterPosition);
+                    var distance = Vector2.Distance(new Vector2(x, y), regions[i].centerPosition);
 
-                    if (nearRegionDistance >= distance)
-                    {
-                        nearRegionDistance = distance;
-                        nearRegionValue = i;
-                    }
+                    if (distance < regions[i].radius)
+                        outsideSubRegion = true;
+
+                    regionDist[i] = new RegionDistance(i, distance);
                 }
 
-                vertexMap[x, y] = new Vertex()
+                VertexBiomeInfo vertexBiomeInfo = new VertexBiomeInfo();
+
+                if (!outsideSubRegion)
                 {
-                    biome = regions[nearRegionValue].Biome,
-                };
-
-                /*
-                
-                float[] regionDistances = new float[regionAmount];
-                float sum = 0;
-
-                float[] newRegionDistances = new float[regionAmount];
-                float newSum = 0f;
-
-                for (int i = 0; i < regionAmount; i++)
-                {
-                    regionDistances[i] = Vector2.Distance(new Vector2(y, (mapSize.x - 1 - x)), regions[i].CenterPosition);
-                    sum += regionDistances[i];
+                    vertexBiomeInfo.friction = baseRegion.biome.friction;
+                    vertexBiomeInfo.color = baseRegion.biome.gradient.colorKeys[0].color;
                 }
+                else {
 
-                for (int i = 0; i < regionAmount; i++)
-                {
-                    newRegionDistances[i] = sum - regionDistances[i];
-                    newSum += newRegionDistances[i] * regionMinimumInfluence;
-                }
+                    float sumDistances = regionDist.Sum(element => element.distance);
+                    Array.ForEach(regionDist, r => r.CalculateInfluence(sumDistances, regionAmount));
 
-                Color gradiantPixelColor = new Color();
+                    regionDist = (from r in regionDist orderby r.distance select r).ToArray();
 
-                var value = 0;
-                var maxInfluence = -1f;
-
-                for (int i = 0; i < regionAmount; i++)
-                {
-                    var regionInfluence = (newRegionDistances[i] / newSum);
-
-                    if (regionInfluence <= regionMinimumInfluence)
+                    for (int j = 0; j < regionAmount; j++)
                     {
-                        gradiantPixelColor.r += regions[i].Biome.colors[0].color.r;
-                        gradiantPixelColor.g += regions[i].Biome.colors[0].color.g;
-                        gradiantPixelColor.b += regions[i].Biome.colors[0].color.b;
-                    }
-                    else
-                    {
-                        if (regionInfluence > maxInfluence)
+                        if (j != regionAmount - 1)
                         {
-                            maxInfluence = regionInfluence;
-                            value = i;
+                            if (regionDist[j].influence - regionDist[j + 1].influence > regionMinimumInfluence)
+                            {
+                                vertexBiomeInfo.friction = regions[regionDist[j].index].biome.friction;
+                                vertexBiomeInfo.color = regions[regionDist[j].index].biome.gradient.colorKeys[0].color;
+                                break;
+                            }
                         }
+                        vertexBiomeInfo.friction += regions[regionDist[j].index].biome.friction * regionDist[j].influence;
+                        vertexBiomeInfo.color += regions[regionDist[j].index].biome.gradient.colorKeys[0].color * regionDist[j].influence;
                     }
                 }
 
-                if (maxInfluence != -1f)
+                vertexMap[x, y] = new Vertex
                 {
-                    gradiantPixelColor = regions[value].Biome.colors[0].color;
-                }
-
-                vertexMap[x, y] = new Vertex()
-                {
-                    colour = gradiantPixelColor
+                    friction = vertexBiomeInfo.friction,
+                    color = vertexBiomeInfo.color,
                 };
-            }
-            */
             }
         }
         return vertexMap;
     }
-}
 
-public class Region
-{
-    private Vector2 centerPosition;
-    private BiomeScriptableObject biome;
-
-    public Region(Vector2 centerPosition, BiomeScriptableObject biome)
+    private class Region
     {
-        this.centerPosition = centerPosition;
-        this.biome = biome;
+        public BiomeScriptableObject biome;
+
+        public Region(BiomeScriptableObject biome)
+        {
+            this.biome = biome;
+        }
     }
 
-    public Vector2 CenterPosition { get => centerPosition; set => centerPosition = value; }
-    public BiomeScriptableObject Biome { get => biome; set => biome = value; }
+    private class SubRegion : Region
+    {
+        public Vector2 centerPosition;
+        public float radius;
+
+        public SubRegion(Vector2 centerPosition, BiomeScriptableObject biome, float radius) : base(biome)
+        {
+            this.centerPosition = centerPosition;
+            this.biome = biome;
+            this.radius = radius;
+        }
+    }
+
+    private class RegionDistance
+    {
+        public int index;
+        public float distance;
+        public float influence;
+
+        public RegionDistance(int index, float distance)
+        {
+            this.index = index;
+            this.distance = distance;
+        }
+
+        public void CalculateInfluence(float sum, int regionAmount)
+        {
+            influence = (sum - distance) / sum / (regionAmount - 1);
+        }
+    }
+
+    private class VertexBiomeInfo
+    {
+        public float friction;
+        public Color32 color;
+    }
 }

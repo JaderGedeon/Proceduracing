@@ -38,13 +38,14 @@ public class WheelController : MonoBehaviour
     {
         for (int i = 0; i < wheelColliders.Length; i++)
         {
-            if (wheelColliders[i].isGrounded)
+            if (wheelColliders[i].isGrounded && MapFrictionInfo != null)
             {
                 wheelColliders[i].GetGroundHit(out WheelHit hit);
                 WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
-                frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].biome.friction;
+                frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction;
                 // QQ coisa, divide pela escala /
                 wheelColliders[i].forwardFriction = frictionCurve;
+                wheelColliders[i].sidewaysFriction = frictionCurve;
                 Debug.Log(frictionCurve.stiffness);
             }
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 enum DisplayMode
 {
@@ -30,11 +31,25 @@ public class MapController : MonoBehaviour
     private Vertex[,] noiseMap;
 
     [Header("Voronoi Settings")]
+    [Range(1, 4)]
     [SerializeField] private int regionAmount;
-    [Range(0f, 1f)]
     [SerializeField] private float regionMinimumInfluence;
+    [Range(1,254)]
+    [SerializeField] private int centralArea;
+    [SerializeField] private Vector2Int regionMinMaxRadius;
+    [Range(0,1f)]
+    [SerializeField] private float regionTransition;
 
     private Vertex[,] voronoiMap;
+
+    [Header("Poisson Disk Settings")]
+
+    [SerializeField] private float radius = 1;
+    [SerializeField] private Vector2 regionSize = Vector2.one;
+    [SerializeField] private int rejectionSamples = 30;
+    [SerializeField] private float displayRadius = 1;
+
+    private List<Vector2> poissonDiskPoints;
 
     [Header("Race Settings")]
     [SerializeField] private GameObject checkPointGameObject;
@@ -69,15 +84,21 @@ public class MapController : MonoBehaviour
             seed = Random.Range(0, 100000);
         vertexMap = new Vertex[mapSize.x, mapSize.y];
         noiseMap = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
-        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinimumInfluence);
+        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinimumInfluence, centralArea, regionMinMaxRadius, regionTransition);
         RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
 
         AssignValuesToVertex();
 
         GenerateMesh();
         DisplayMap();
+        StructuresPlacement();
 
         PassMapToWheels();
+    }
+
+    private void StructuresPlacement()
+    {
+        poissonDiskPoints = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples);
     }
 
     private void PassMapToWheels()
@@ -94,7 +115,9 @@ public class MapController : MonoBehaviour
                 vertexMap[x, y] = new Vertex()
                 {
                     height = noiseMap[x, y].height,
-                    biome = voronoiMap[x, y].biome,
+                    friction = voronoiMap[x, y].friction,
+                    color = voronoiMap[x, y].color
+                    //biome = voronoiMap[x, y].biome,
                 };
                 //Debug.Log(vertexMap[x, y].ToString());
             }
@@ -131,7 +154,7 @@ public class MapController : MonoBehaviour
 
     private void CheckPointCollected() {
         checkPointsCollected += 1;
-        Debug.Log(checkPointsCollected);
+        //Debug.Log(checkPointsCollected);
     }
 
     void OnGUI()
@@ -148,18 +171,14 @@ public class MapController : MonoBehaviour
         GUI.Label(rect, text, style);
     }
 
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-       /* for (int y = 0; y < vertexMap.GetLength(0); y++)
+        if (poissonDiskPoints != null)
         {
-            for (int x = 0; x < vertexMap.GetLength(1); x++)
+            foreach (Vector2 point in poissonDiskPoints)
             {
-                //if (vertexMap[x, y].biome.friction == 0.5f) {
-                    Gizmos.color = vertexMap[x, y].biome.colors[0].color;
-                    Gizmos.DrawSphere(new Vector3(x, 0, y), 0.2f);
-                //}
+                Gizmos.DrawSphere(new Vector3(point.x, 5, point.y), displayRadius);
             }
         }
-       */
     }
 }

@@ -13,7 +13,7 @@ public class MapDisplay : MonoBehaviour
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                colourMap[(y * mapSize.y) + x] = Color32.Lerp(Color.white, Color.black, noiseMap[x, y].height);
+                colourMap[(y * mapSize.x) + x] = Color32.Lerp(Color.white, Color.black, noiseMap[x, y].height);
             }
         }
         return colourMap;
@@ -28,7 +28,7 @@ public class MapDisplay : MonoBehaviour
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                colourMap[y * mapSize.y + x] = voronoiMap[x, y].biome.colors[0].color;
+                colourMap[y * mapSize.x + x] = voronoiMap[x, y].color;
             }
         }
         return colourMap;
