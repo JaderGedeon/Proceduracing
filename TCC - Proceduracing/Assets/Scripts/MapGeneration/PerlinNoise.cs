@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PerlinNoise
 {
-    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
+    public static Tuple<Vertex[,], MinMax> GenerateNoiseMap(Vector2Int mapSize, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
-
         Vertex[,] noiseMap = new Vertex[mapSize.x, mapSize.y];
 
         System.Random prgn = new System.Random(seed);
@@ -20,8 +20,7 @@ public class PerlinNoise
         if (scale <= 0)
             scale = 0.0001f;
 
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
+        MinMax minMax = new MinMax();
 
         for (int y = 0; y < mapSize.y; y++)
         {
@@ -44,14 +43,7 @@ public class PerlinNoise
                     frequency *= lacunarity;
                 }
 
-                if (noiseHeight > maxNoiseHeight)
-                {
-                    maxNoiseHeight = noiseHeight;
-                }
-                else if (noiseHeight < minNoiseHeight)
-                {
-                    minNoiseHeight = noiseHeight;
-                }
+                minMax.AddValue(noiseHeight);
 
                 noiseMap[x, y] = new Vertex()
                 {
@@ -64,11 +56,11 @@ public class PerlinNoise
         {
             for (int x = 0; x < mapSize.x; x++)
             {
-                noiseMap[x, y].height = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y].height);
+                noiseMap[x, y].height = Mathf.InverseLerp(minMax.Min, minMax.Max, noiseMap[x, y].height);
             }
         }
 
-        return noiseMap;
+        return Tuple.Create(noiseMap, minMax);
 
     }
 }

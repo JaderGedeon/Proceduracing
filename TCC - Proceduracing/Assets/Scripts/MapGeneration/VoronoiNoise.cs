@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class VoronoiNoise : MonoBehaviour
 {
-    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, int seed, int regionAmount, Vector2Int minMaxRadius, float biomeTransition)
+    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, Vertex[,] noiseMap, MinMax minMax, int seed, int regionAmount, Vector2Int minMaxRadius, float biomeTransition)
     {
         Vertex[,] vertexMap = new Vertex[mapSize.x, mapSize.y];
         Vector2Int centralPoint = new Vector2Int(mapSize.x / 2, mapSize.y / 2);
@@ -24,8 +24,10 @@ public class VoronoiNoise : MonoBehaviour
         {
             for (int x = 0; x < mapSize.x; x++)
             {
+                float gradientTime = (noiseMap[x, y].height - minMax.Min) / (minMax.Max - minMax.Min);
+
                 VertexBiomeInfo vertexBiomeInfo = new VertexBiomeInfo();
-                vertexBiomeInfo.SubstituteValue(baseRegion);
+                vertexBiomeInfo.SubstituteValue(baseRegion, gradientTime);
 
                 if (regionAmount > 1)
                 {
@@ -37,12 +39,12 @@ public class VoronoiNoise : MonoBehaviour
 
                         if (distance <= subRegion.middleRadius)
                         {
-                            vertexBiomeInfo.SubstituteValue(subRegion);
+                            vertexBiomeInfo.SubstituteValue(subRegion, gradientTime);
                         }
                         else
                         {
                             float gradientValue = 1 - ((distance - subRegion.middleRadius) / (subRegion.radius - subRegion.middleRadius));
-                            vertexBiomeInfo.SumValues(baseRegion, subRegion, gradientValue);
+                            vertexBiomeInfo.SumValues(baseRegion, subRegion, gradientValue, gradientTime);
                         }
                     }
                 }
@@ -82,59 +84,24 @@ public class VoronoiNoise : MonoBehaviour
         }
     }
 
-    private class RegionDistance
-    {
-        public float distance;
-        public float influence;
-
-        public RegionDistance(float distance)
-        {
-            this.distance = distance;
-        }
-
-        public void CalculateInfluence(float sum, int regionAmount)
-        {
-            influence = (sum - distance) / sum / (regionAmount - 1);
-        }
-    }
-
     private class VertexBiomeInfo
     {
         public float friction;
         public Color color;
 
-        public void SumValues(Region baseRegion, Region subRegion, float multiplier)
+        public void SumValues(Region baseRegion, Region subRegion, float multiplier, float gradientTime)
         {
             this.friction += baseRegion.biome.friction * (1 - multiplier);
-            this.color += baseRegion.biome.gradient.colorKeys[0].color * (1 - multiplier);
+            this.color += baseRegion.biome.gradient.Evaluate(gradientTime) * (1 - multiplier);
 
             this.friction += subRegion.biome.friction * multiplier;
-            this.color += subRegion.biome.gradient.colorKeys[0].color * multiplier;
+            this.color += subRegion.biome.gradient.Evaluate(gradientTime) * multiplier;
         }
 
-        public void SubstituteValue(Region region)
+        public void SubstituteValue(Region region, float gradientTime)
         {
             this.friction = region.biome.friction;
-            this.color = region.biome.gradient.colorKeys[0].color;
+            this.color = region.biome.gradient.Evaluate(gradientTime);
         }
     }
 }
-
-
-// Arrumar aqui
-
-/*
-for (int j = 0; j < regionAmount - 1; j++)
-{
-    if (j != regionAmount - 1)
-    {
-        if (regionAmount == 2 || regionDist[j].influence - regionDist[j + 1].influence > regionMinimumInfluence)
-        {
-            vertexBiomeInfo.SubstituteValue(regions[regionDist[j].index]);
-            break;
-        }
-    }
-    vertexBiomeInfo.SumValues(regions[regionDist[j].index], regionDist[j].influence);
-}  */
-
-// Arrumar aqui

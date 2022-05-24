@@ -80,8 +80,9 @@ public class MapController : MonoBehaviour
         if (randomSeed)
             seed = Random.Range(0, 100000);
         vertexMap = new Vertex[mapSize.x, mapSize.y];
-        noiseMap = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
-        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, seed, regionAmount, regionMinMaxRadius, regionTransition);
+        var perlin = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
+        noiseMap = perlin.Item1;
+        voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, noiseMap, perlin.Item2, seed, regionAmount, regionMinMaxRadius, regionTransition);
         RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
 
         AssignValuesToVertex();
