@@ -15,20 +15,21 @@ MonoBehaviour:
   biomeType: 0
   rarity: 0
   heightMultiplier: 1
-  friction: 0.6
-  structures: []
+  friction: 0.4
+  structures:
+  - {fileID: 11400000, guid: f860f676305347744a36b8c217386b05, type: 2}
   vegetation: []
   gradient:
     serializedVersion: 2
-    key0: {r: 0.51303846, g: 0.5613814, b: 0.5754717, a: 1}
-    key1: {r: 0.5874866, g: 0.7735849, b: 0.7735849, a: 1}
-    key2: {r: 1, g: 1, b: 1, a: 0}
+    key0: {r: 0.246707, g: 0.45790318, b: 0.5283019, a: 1}
+    key1: {r: 0.49991098, g: 0.7487702, b: 0.7735849, a: 1}
+    key2: {r: 0.7216981, g: 1, b: 0.9692039, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 3470
+    ctime0: 0
     ctime1: 18890
     ctime2: 65535
     ctime3: 0

@@ -53,6 +53,7 @@ public class VoronoiNoise : MonoBehaviour
                 {
                     friction = vertexBiomeInfo.friction,
                     color = vertexBiomeInfo.color,
+                    biomeList = vertexBiomeInfo.biomeList,
                 };
             }
         }
@@ -88,20 +89,30 @@ public class VoronoiNoise : MonoBehaviour
     {
         public float friction;
         public Color color;
+        public List<BiomeScriptableObject> biomeList;
+
+        public VertexBiomeInfo()
+        {
+            biomeList = new List<BiomeScriptableObject>();
+        }
 
         public void SumValues(Region baseRegion, Region subRegion, float multiplier, float gradientTime)
         {
             this.friction += baseRegion.biome.friction * (1 - multiplier);
             this.color += baseRegion.biome.gradient.Evaluate(gradientTime) * (1 - multiplier);
+            this.biomeList.Add(baseRegion.biome);
 
             this.friction += subRegion.biome.friction * multiplier;
             this.color += subRegion.biome.gradient.Evaluate(gradientTime) * multiplier;
+            this.biomeList.Add(subRegion.biome);
         }
 
         public void SubstituteValue(Region region, float gradientTime)
         {
             this.friction = region.biome.friction;
             this.color = region.biome.gradient.Evaluate(gradientTime);
+            this.biomeList.Clear();
+            this.biomeList.Add(region.biome);
         }
     }
 }

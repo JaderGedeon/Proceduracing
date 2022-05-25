@@ -45,6 +45,8 @@ public class MapController : MonoBehaviour
     [SerializeField] private Vector2 regionSize = Vector2.one;
     [SerializeField] private int rejectionSamples = 30;
     [SerializeField] private float displayRadius = 1;
+    [SerializeField] private GameObject[] structures;
+    [SerializeField] private Transform structureParent;
 
     private List<Vector2> poissonDiskPoints;
 
@@ -97,6 +99,23 @@ public class MapController : MonoBehaviour
     private void StructuresPlacement()
     {
         poissonDiskPoints = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples);
+        System.Random prgn = new System.Random(seed);
+
+        if (poissonDiskPoints != null)
+        {
+            foreach (var point in poissonDiskPoints)
+            {
+
+                var vertex = vertexMap[Mathf.FloorToInt(point.x), Mathf.FloorToInt(point.y)];
+                //Debug.Log(vertex.biomeList.Count);
+                var biome = vertex.biomeList[prgn.Next(0, vertex.biomeList.Count)];
+                var structure = biome.structures[prgn.Next(0, biome.structures.Length)];
+
+                var gameObject = structures[prgn.Next(0, structures.Length)];;
+
+                Instantiate(structure.structure, new Vector3(point.x, vertex.height * heightMultiplier, point.y), Quaternion.identity, structureParent);
+            }
+        }
     }
 
     private void PassMapToWheels()
@@ -114,10 +133,9 @@ public class MapController : MonoBehaviour
                 {
                     height = noiseMap[x, y].height,
                     friction = voronoiMap[x, y].friction,
-                    color = voronoiMap[x, y].color
-                    //biome = voronoiMap[x, y].biome,
+                    color = voronoiMap[x, y].color,
+                    biomeList = voronoiMap[x, y].biomeList,
                 };
-                //Debug.Log(vertexMap[x, y].ToString());
             }
         }
     }

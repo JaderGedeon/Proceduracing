@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae3e83bfb70bf24ab1cb23070ce6cbb, type: 3}
   m_Name: Vegetation-Cactus
   m_EditorClassIdentifier: 
-  structure: {fileID: 919132149155446097, guid: 198159151580fb2469a10969a6ac8a40, type: 3}
+  structure: {fileID: 3957492215654117434, guid: 997ace1a11e3a134aa609cff6a03fbbb, type: 3}
   maxRotation: {x: 0, y: 0, z: 0}
   density: 1

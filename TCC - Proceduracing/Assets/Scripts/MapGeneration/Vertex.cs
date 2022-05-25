@@ -7,4 +7,5 @@ public class Vertex
     public float height;
     public float friction;
     public Color color;
+    public List<BiomeScriptableObject> biomeList;
 }
