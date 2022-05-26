@@ -17,7 +17,15 @@ MonoBehaviour:
   heightMultiplier: 4.48
   friction: 1.5
   structures:
-  - {fileID: 11400000, guid: f860f676305347744a36b8c217386b05, type: 2}
+  - {fileID: 11400000, guid: 167b0bb530dee2a40ba7aed735d6a272, type: 2}
+  - {fileID: 11400000, guid: 7520d442c8c69f54bae8d22af7abce88, type: 2}
+  - {fileID: 11400000, guid: 751d8dad4fff50e4eae58a3b238da0ab, type: 2}
+  - {fileID: 11400000, guid: f8edb4e900095194bab8873a7ecce093, type: 2}
+  - {fileID: 11400000, guid: 1769678a479d5c24486131e668c712b4, type: 2}
+  - {fileID: 11400000, guid: 8dcd5740947117444beabd5cb7953180, type: 2}
+  - {fileID: 11400000, guid: 65c40c6b35a979846b2f0a194ce4fc7c, type: 2}
+  - {fileID: 11400000, guid: cdc7dc7b533aa1f439b6938729316862, type: 2}
+  - {fileID: 11400000, guid: 6c3fc38c8a914da458a8c20781f350d7, type: 2}
   vegetation:
   - {fileID: 11400000, guid: dcdab26768005594d86bd52dca3da3bd, type: 2}
   gradient:
