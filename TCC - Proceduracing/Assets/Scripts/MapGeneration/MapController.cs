@@ -10,6 +10,7 @@ enum DisplayMode
 public class MapController : MonoBehaviour
 {
     [Header("General Settings")]
+    [SerializeField] private Transform car;
     [SerializeField] private GameObject terrain;
     [SerializeField] private Vector2Int mapSize;
     [SerializeField] private int seed;
@@ -63,6 +64,8 @@ public class MapController : MonoBehaviour
     private MeshCollider meshCollider;
     private Renderer meshRenderer;
 
+    private Vector2Int startPoint;
+
     private void Start()
     {
         GetAllComponents();
@@ -84,7 +87,9 @@ public class MapController : MonoBehaviour
         var perlin = PerlinNoise.GenerateNoiseMap(mapSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
         noiseMap = perlin.Item1;
         voronoiMap = VoronoiNoise.GenerateNoiseMap(mapSize, noiseMap, perlin.Item2, seed, regionAmount, regionMinMaxRadius, regionTransition);
-        RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
+        var points = RaceController.GenerateRace(vertexMap, seed, checkPointGameObject, checkPointsAmount, minDistanceBetweenPoints, border);
+        startPoint = points[0];
+        car.position = new Vector3(startPoint.x, car.position.y, startPoint.y);
 
         AssignValuesToVertex();
 
@@ -184,6 +189,8 @@ public class MapController : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Gizmos.DrawSphere(new Vector3(startPoint.x, 5, startPoint.y), 10f);
+
         if (poissonDiskPoints != null)
         {
             foreach (Vector2 point in poissonDiskPoints)

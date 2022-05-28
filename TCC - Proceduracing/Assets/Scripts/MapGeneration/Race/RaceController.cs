@@ -19,7 +19,7 @@ public class RaceController : MonoBehaviour
 
 
         Vector2Int mapSize = new Vector2Int(vertexMap.GetLength(0), vertexMap.GetLength(1));
-        Vector2Int[] checkPointsPosition = new Vector2Int[checkPointsQnt];
+        Vector2Int[] checkPointsPosition = new Vector2Int[checkPointsQnt+1];
 
         List<Vector2Int> posList = new List<Vector2Int>(mapSize.x * mapSize.y);
         for (int y = (int)(vertexMap.GetLength(0) / 2 * border); y < (int)(vertexMap.GetLength(0) / 2 * (2 - border)); y++)
@@ -34,25 +34,28 @@ public class RaceController : MonoBehaviour
 
         GameObject checkPointsGroup = new GameObject("checkPointsGroup");
 
-        for (int i = 0; i < checkPointsQnt; i++)
+        for (int i = 0; i < checkPointsQnt+1; i++)
         {
             checkPointsPosition[i] = posList[prgn.Next(0, posList.Count)];
-            var checkPoint = Instantiate(
-                checkPointGameObject,
-                new Vector3(checkPointsPosition[i].x, 0, checkPointsPosition[i].y),
-                Quaternion.identity, checkPointsGroup.transform);
-
-            var removedPos = new List<Vector2Int>(mapSize.x * mapSize.y);
-
-            for (int j = 0; j < posList.Count; j++)
+            if (i != 0)
             {
-                var distance = Vector2Int.Distance(posList[j], checkPointsPosition[i]);
+                Instantiate(
+                    checkPointGameObject,
+                    new Vector3(checkPointsPosition[i].x, 0, checkPointsPosition[i].y),
+                    Quaternion.identity, checkPointsGroup.transform);
 
-                if (distance <= minimumDistanceBetweenPoints)
-                    removedPos.Add(posList[j]);
+                var removedPos = new List<Vector2Int>(mapSize.x * mapSize.y);
+
+                for (int j = 0; j < posList.Count; j++)
+                {
+                    var distance = Vector2Int.Distance(posList[j], checkPointsPosition[i]);
+
+                    if (distance <= minimumDistanceBetweenPoints)
+                        removedPos.Add(posList[j]);
+                }
+
+                posList = posList.Except(removedPos).ToList();
             }
-
-            posList = posList.Except(removedPos).ToList();
         }
 
         return checkPointsPosition;

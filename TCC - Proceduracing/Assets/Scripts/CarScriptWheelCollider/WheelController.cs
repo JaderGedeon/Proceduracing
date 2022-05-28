@@ -19,6 +19,7 @@ public class WheelController : MonoBehaviour
     [SerializeField] private int brakeTorque;
     [SerializeField] private float steeringMax;
     [SerializeField] private float steeringSpeed;
+    [SerializeField] private Rigidbody carRigidbody;
 
     public Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
 
@@ -46,6 +47,11 @@ public class WheelController : MonoBehaviour
                 // QQ coisa, divide pela escala  /
                 wheelColliders[i].forwardFriction = frictionCurve;
                 wheelColliders[i].sidewaysFriction = frictionCurve;
+            }
+            else
+            {
+                var carRotation = carRigidbody.transform.rotation;
+                carRigidbody.rotation = Quaternion.Lerp(carRotation, Quaternion.Euler(0,carRotation.eulerAngles.y,0), Time.deltaTime * 4f);
             }
         }
     }
