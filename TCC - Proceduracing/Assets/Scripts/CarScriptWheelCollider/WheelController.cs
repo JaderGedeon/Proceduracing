@@ -43,10 +43,9 @@ public class WheelController : MonoBehaviour
                 wheelColliders[i].GetGroundHit(out WheelHit hit);
                 WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
                 frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction;
-                // QQ coisa, divide pela escala /
+                // QQ coisa, divide pela escala  /
                 wheelColliders[i].forwardFriction = frictionCurve;
                 wheelColliders[i].sidewaysFriction = frictionCurve;
-                Debug.Log(frictionCurve.stiffness);
             }
         }
     }
@@ -64,6 +63,7 @@ public class WheelController : MonoBehaviour
             wheelColliders[i].steerAngle = Mathf.Lerp(wheelColliders[i].steerAngle,
                 ridingInputManager.turning * steeringMax,
                 steeringSpeed * Time.deltaTime);
+
         }
     }
 
