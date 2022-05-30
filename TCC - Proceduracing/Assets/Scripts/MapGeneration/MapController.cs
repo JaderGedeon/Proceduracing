@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 enum DisplayMode
 {
@@ -66,6 +67,7 @@ public class MapController : MonoBehaviour
     private Renderer meshRenderer;
 
     [SerializeField] OpponentsController opponentsController;
+    [SerializeField] TextMeshProUGUI checkPointsUI;
 
     private Vector2Int startPoint;
 
@@ -104,6 +106,13 @@ public class MapController : MonoBehaviour
         StructuresPlacement();
 
         PassMapToWheels();
+
+        UpdateCheckPointUI();
+    }
+
+    private void UpdateCheckPointUI()
+    {
+        checkPointsUI.text = checkPointsCollected + " / " + checkPointsAmount;
     }
 
     private float CalculateDistanceBetweenCheckPoints(Vector2Int[] checkPoints)
@@ -233,21 +242,9 @@ public class MapController : MonoBehaviour
 
     private void CheckPointCollected() {
         checkPointsCollected += 1;
+        UpdateCheckPointUI();
+
         //Debug.Log(checkPointsCollected);
-    }
-
-    void OnGUI()
-    {
-        int w = Screen.width, h = Screen.height;
-
-        GUIStyle style = new GUIStyle();
-
-        Rect rect = new Rect(20, 0, w + 10, h * 2 / 100);
-        style.alignment = TextAnchor.UpperLeft;
-        style.fontSize = h * 8 / 100;
-        style.normal.textColor = new Color(0f, 0f, 0f, 1.0f);
-        string text = (checkPointsCollected + " / " + checkPointsAmount);
-        GUI.Label(rect, text, style);
     }
 
     void OnDrawGizmos()
