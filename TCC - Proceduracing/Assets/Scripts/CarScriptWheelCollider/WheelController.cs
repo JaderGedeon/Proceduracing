@@ -37,10 +37,13 @@ public class WheelController : MonoBehaviour
 
     private void UpdateWheelFricton()
     {
+        var carIsGrounded = false;
+
         for (int i = 0; i < wheelColliders.Length; i++)
         {
             if (wheelColliders[i].isGrounded && MapFrictionInfo != null)
             {
+                carIsGrounded = true;
                 wheelColliders[i].GetGroundHit(out WheelHit hit);
                 WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
                 frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction;
@@ -48,11 +51,10 @@ public class WheelController : MonoBehaviour
                 wheelColliders[i].forwardFriction = frictionCurve;
                 wheelColliders[i].sidewaysFriction = frictionCurve;
             }
-            else
-            {
-                var carRotation = carRigidbody.transform.rotation;
-                carRigidbody.rotation = Quaternion.Lerp(carRotation, Quaternion.Euler(0,carRotation.eulerAngles.y,0), Time.deltaTime * 4f);
-            }
+        }
+        if (!carIsGrounded) {
+            var carRotation = carRigidbody.transform.rotation;
+            carRigidbody.rotation = Quaternion.Lerp(carRotation, Quaternion.Euler(0, carRotation.eulerAngles.y, 0), Time.deltaTime * 4f); //3
         }
     }
 

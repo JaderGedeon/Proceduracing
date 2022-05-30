@@ -5,11 +5,16 @@ using TMPro;
 
 public class OpponentsController : MonoBehaviour
 {
-    [SerializeField] private Opponent[] opponents;
+    [SerializeField] private List<Opponent> opponents;
     [Range(0,1)]
     [SerializeField] private float humanNormalize;
     [Range(0, 1)]
     [SerializeField] private float maxVariation;
+
+    public List<Opponent> Opponents()
+    {
+        return opponents;
+    }
 
     public void PassTime(int seed, float time)
     {
@@ -17,7 +22,7 @@ public class OpponentsController : MonoBehaviour
 
         var humanizedTime = time * (1f + humanNormalize);
 
-        for (int i = 0; i < opponents.Length; i++)
+        for (int i = 0; i < opponents.Count; i++)
         {
             float variation = prgn.Next(0, (int)(maxVariation * 100)) / 100f + 1f;
             opponents[i].AssignTime(humanizedTime * variation);
@@ -26,11 +31,13 @@ public class OpponentsController : MonoBehaviour
 
 
     [System.Serializable]
-    private class Opponent
+    public class Opponent
     {
         public float time = 0;
         public Difficulty difficulty;
 
+        public TextMeshProUGUI position;
+        public TextMeshProUGUI order;
         public TextMeshProUGUI clock;
 
         public void AssignTime(float defaultTime)
@@ -48,9 +55,23 @@ public class OpponentsController : MonoBehaviour
 
             clock.text = minutes.ToString("00") + ":" + seconds.ToString("00") + ":" + passingTime.ToString("00");
         }
+
+        public void MarkOpponent()
+        {
+            var invisibleColor = new Color(1, 1, 1, 0.235f);
+
+            position.fontStyle = FontStyles.Strikethrough;
+            position.color = invisibleColor;
+
+            order.fontStyle = FontStyles.Strikethrough;
+            order.color = invisibleColor;
+
+            clock.fontStyle = FontStyles.Strikethrough;
+            clock.color = invisibleColor;
+        }
     }
 
-    enum Difficulty
+    public enum Difficulty
     { 
         Easy = 45,
         Medium = 35,

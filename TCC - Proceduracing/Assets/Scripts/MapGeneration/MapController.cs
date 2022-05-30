@@ -113,6 +113,7 @@ public class MapController : MonoBehaviour
     private void UpdateCheckPointUI()
     {
         checkPointsUI.text = checkPointsCollected + " / " + checkPointsAmount;
+        // puxar pra prox tela
     }
 
     private float CalculateDistanceBetweenCheckPoints(Vector2Int[] checkPoints)
