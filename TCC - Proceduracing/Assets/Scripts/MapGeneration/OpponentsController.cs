@@ -5,39 +5,44 @@ using UnityEngine;
 public class OpponentsController : MonoBehaviour
 {
     [SerializeField] private Opponent[] opponents;
+    [Range(0,1)]
+    [SerializeField] private float humanNormalize;
+    [Range(0, 1)]
+    [SerializeField] private float maxVariation;
 
-    // Start is called before the first frame update
-    void Start()
+    public void PassTime(int seed, float time)
     {
+        System.Random prgn = new System.Random(seed);
 
-    }
+        var humanizedTime = time * (1f + humanNormalize);
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        for (int i = 0; i < opponents.Length; i++)
+        {
+            float variation = prgn.Next(0, (int)(maxVariation * 100)) / 100f + 1f;
+            opponents[i].AssignTime(humanizedTime * variation);
+        }
     }
 
 
     [System.Serializable]
     private class Opponent
     {
-        private int time = 0;
+        public float time = 0;
         public Difficulty difficulty;
 
-        private void assignTime(float defaultTime)
+        public void AssignTime(float defaultTime)
         {
-            time = (int)(defaultTime / ((int)difficulty + 1));
+            time = defaultTime * (1 + ((int)difficulty / 100f));
         }
     }
 
     enum Difficulty
     { 
-        Easy,
-        Medium,
-        Hard,
-        Extreme,
-        Impossible,
+        Easy = 45,
+        Medium = 35,
+        Hard = 25,
+        Extreme = 15,
+        Impossible = 5,
     }
 
 }

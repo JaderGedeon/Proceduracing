@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 enum DisplayMode
 {
@@ -64,6 +65,8 @@ public class MapController : MonoBehaviour
     private MeshCollider meshCollider;
     private Renderer meshRenderer;
 
+    [SerializeField] OpponentsController opponentsController;
+
     private Vector2Int startPoint;
 
     private void Start()
@@ -91,13 +94,63 @@ public class MapController : MonoBehaviour
         startPoint = points[0];
         car.position = new Vector3(startPoint.x, car.position.y, startPoint.y);
 
-        AssignValuesToVertex();
+        var averages = AssignValuesToVertex();
+        var dist = CalculateDistanceBetweenCheckPoints(points);
+        var time = CalculateRaceTime(dist, averages.Item1, averages.Item2);
+        opponentsController.PassTime(seed, time);
 
         GenerateMesh();
         DisplayMap();
         StructuresPlacement();
 
         PassMapToWheels();
+    }
+
+    private float CalculateDistanceBetweenCheckPoints(Vector2Int[] checkPoints)
+    {
+        List<Vector2Int> possibleCheckPoints = checkPoints.ToList();
+        List<Vector2Int> calculatedCheckPoints = new List<Vector2Int>
+        {
+            possibleCheckPoints[0]
+        };
+        possibleCheckPoints.RemoveAt(0);
+
+        float finalDistance = 0;
+
+
+        for (int i = 0; i < calculatedCheckPoints.Count; i++)
+        {
+            var distance = Mathf.Infinity;
+            var index = 0;
+
+            if(possibleCheckPoints.Count != 0) { 
+                for (int j = 0; j < possibleCheckPoints.Count; j++)
+                {
+                    var checkPointsDistance = Vector2Int.Distance(calculatedCheckPoints[i], possibleCheckPoints[j]);
+
+                    if (checkPointsDistance < distance)
+                    {
+                        distance = checkPointsDistance;
+                        index = j;
+                    }
+                }
+                calculatedCheckPoints.Add(possibleCheckPoints[index]);
+                possibleCheckPoints.RemoveAt(index);
+                finalDistance += distance;
+            }
+        }
+        return finalDistance;
+    }
+
+    private float CalculateRaceTime(float distance, float averageHeight, float averageFriction)
+    {
+        float frictionMultiplier = averageFriction >= 1 ? 1f : 2f - averageFriction;
+        Debug.Log(frictionMultiplier);
+        float heightMultiplier = Mathf.Abs(averageHeight - 0.5f);
+        Debug.Log(averageHeight);
+        Debug.Log(heightMultiplier);
+        float time = distance * (frictionMultiplier + heightMultiplier) / 10;
+        return time;
     }
 
     private void StructuresPlacement()
@@ -123,8 +176,12 @@ public class MapController : MonoBehaviour
         FindObjectOfType<WheelController>().GetComponent<WheelController>().MapFrictionInfo = vertexMap;
     }
 
-    private void AssignValuesToVertex()
+    private System.Tuple<float, float> AssignValuesToVertex()
     {
+        float averageHeight = 0;
+        float averageFriction = 0;
+        var count = 0;
+
         for (int y = 0; y < mapSize.y; y++)
         {
             for (int x = 0; x < mapSize.x; x++)
@@ -136,8 +193,14 @@ public class MapController : MonoBehaviour
                     color = voronoiMap[x, y].color,
                     biomeList = voronoiMap[x, y].biomeList,
                 };
+
+                count++;
+                averageHeight = averageHeight * (count - 1) / count + noiseMap[x, y].height / count;
+                averageFriction = averageFriction * (count - 1) / count + voronoiMap[x, y].friction / count;
             }
         }
+
+        return new System.Tuple<float, float>(averageHeight, averageFriction);
     }
 
     public void GenerateMesh()
