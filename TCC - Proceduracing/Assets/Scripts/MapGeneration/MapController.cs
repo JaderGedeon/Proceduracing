@@ -73,6 +73,9 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
+        randomSeed = QuickRace.randomSeed;
+        seed = QuickRace.seed;
+
         GetAllComponents();
         GenerateMap();
         CheckPoint.CheckPointCaught += CheckPointCollected;
