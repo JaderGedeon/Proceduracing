@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 enum DisplayMode
 {
@@ -15,7 +16,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private Transform car;
     [SerializeField] private GameObject terrain;
     [SerializeField] private Vector2Int mapSize;
-    [SerializeField] private int seed;
+    [SerializeField] public static int seed;
     [SerializeField] private bool randomSeed;
     [SerializeField] private Vector2 offset;
     [SerializeField] private DisplayMode displayMode;
@@ -247,6 +248,11 @@ public class MapController : MonoBehaviour
     private void CheckPointCollected() {
         checkPointsCollected += 1;
         UpdateCheckPointUI();
+
+        if (checkPointsCollected == checkPointsAmount)
+        {
+            SceneManager.LoadScene(2);
+        }
 
         //Debug.Log(checkPointsCollected);
     }
