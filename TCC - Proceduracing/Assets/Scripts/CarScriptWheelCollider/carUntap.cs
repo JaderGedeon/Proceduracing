@@ -14,7 +14,7 @@ public class carUntap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (/*ridingInputManager.untap*/ Input.GetKeyDown(KeyCode.U))
+        if (/*ridingInputManager.untap*/ Input.GetKeyDown(KeyCode.R))
         {
             Vector3 position = gameObject.transform.position;
             position.y += 1;
