@@ -11,6 +11,8 @@ public class OpponentsController : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] private float maxVariation;
 
+    public static float[] opponentsTimes;
+
     public List<Opponent> Opponents()
     {
         return opponents;
@@ -26,6 +28,13 @@ public class OpponentsController : MonoBehaviour
         {
             float variation = prgn.Next(0, (int)(maxVariation * 100)) / 100f + 1f;
             opponents[i].AssignTime(humanizedTime * variation);
+        }
+
+        opponentsTimes = new float[opponents.Count];
+
+        for (int i = 0; i < opponentsTimes.Length; i++)
+        {
+            opponentsTimes[i] = opponents[i].time;
         }
     }
 

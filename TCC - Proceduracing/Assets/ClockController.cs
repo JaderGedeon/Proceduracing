@@ -5,15 +5,17 @@ using TMPro;
 
 public class ClockController : MonoBehaviour
 {
-    public int position = 1;
+    public static int position = 1;
 
     public TextMeshProUGUI clock;
     public OpponentsController opponentsController;
-    public float time = 0f;
+    public static float time = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        time = 0f;
+        position = 1;
         AssignValueInClock();
     }
 
@@ -23,11 +25,13 @@ public class ClockController : MonoBehaviour
         time += Time.deltaTime;
         AssignValueInClock();
 
-        if (opponentsController.Opponents().Count >= position)
+        var opponents = opponentsController.Opponents();
+
+        if (opponents.Count >= position)
         {
-            if (opponentsController.Opponents()[position - 1].time < time)
+            if (opponents[position - 1].time < time)
             {
-                opponentsController.Opponents()[position - 1].MarkOpponent();
+                opponents[position - 1].MarkOpponent();
                 position++;
             }
         }

@@ -59,7 +59,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private float minDistanceBetweenPoints;
     [Range(0f, 1f)]
     [SerializeField] private float border;
-    [SerializeField] private int checkPointsCollected;
+    [SerializeField] private int checkPointsCollected = 0;
 
     [Header("Internal")]
 
@@ -72,14 +72,23 @@ public class MapController : MonoBehaviour
 
     private Vector2Int startPoint;
 
+    public static bool jaAtribuiu = false;
+
     private void Start()
     {
         randomSeed = QuickRace.randomSeed;
         seed = QuickRace.seed;
+        checkPointsCollected = 0;
 
         GetAllComponents();
         GenerateMap();
+
         CheckPoint.CheckPointCaught += CheckPointCollected;
+    }
+
+    private void OnDestroy()
+    {
+        CheckPoint.CheckPointCaught -= CheckPointCollected;
     }
 
     public void GetAllComponents() {
