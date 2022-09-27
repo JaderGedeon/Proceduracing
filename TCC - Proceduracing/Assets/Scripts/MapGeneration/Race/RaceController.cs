@@ -7,57 +7,75 @@ using UnityEngine;
 
 public class RaceController : MonoBehaviour
 {
-    public static Vector2Int[] GenerateRace(Vertex[,] vertexMap, int seed, GameObject checkPointGameObject, int checkPointsQnt, float minimumDistanceBetweenPoints, float border)
+    private GameObject _checkPointPrefab;
+    private int _checkPointAmount;
+    private float _minDistBetweenPoints;
+    private float _bordesDistance;
+
+    private List<GameObject> _checkPoints;
+    private GameObject _checkPointParent;
+
+    public Vector2Int[] CheckPointPosition { get; private set; }
+
+    public RaceController(GameObject checkPointPrefab, int checkPointAmount, float minDistBetweenPoints, float bordesDistance)
     {
-        GameObject[] oldCheckPoints = GameObject.FindGameObjectsWithTag("CheckPoint");
-        foreach (var checkPoint in oldCheckPoints)
-        {
-            DestroyImmediate(checkPoint);
-        }
+        _checkPointPrefab = checkPointPrefab;
+        _checkPointAmount = checkPointAmount;
+        _minDistBetweenPoints = minDistBetweenPoints;
+        _bordesDistance = bordesDistance;
 
-        DestroyImmediate(GameObject.Find("checkPointsGroup"));
+        _checkPoints = new List<GameObject>();
+        _checkPointParent = new GameObject("checkPointsGroup");
+    }
 
+    public void GenerateRace(Vertex[,] vertexMap, int seed)
+    {
+        DestroyExistingCheckPoints();
+
+        System.Random prgn = new System.Random(seed);
 
         Vector2Int mapSize = new Vector2Int(vertexMap.GetLength(0), vertexMap.GetLength(1));
-        Vector2Int[] checkPointsPosition = new Vector2Int[checkPointsQnt+1];
+        CheckPointPosition = new Vector2Int[_checkPointAmount + 1];
 
         List<Vector2Int> posList = new List<Vector2Int>(mapSize.x * mapSize.y);
-        for (int y = (int)(vertexMap.GetLength(0) / 2 * border); y < (int)(vertexMap.GetLength(0) / 2 * (2 - border)); y++)
+        for (int y = (int)(vertexMap.GetLength(0) / 2 * _bordesDistance); y < (int)(vertexMap.GetLength(0) / 2 * (2 - _bordesDistance)); y++)
         {
-            for (int x = (int)(vertexMap.GetLength(1) / 2 * border); x < (int)(vertexMap.GetLength(1) / 2 * (2 - border)); x++)
+            for (int x = (int)(vertexMap.GetLength(1) / 2 * _bordesDistance); x < (int)(vertexMap.GetLength(1) / 2 * (2 - _bordesDistance)); x++)
             {
                 posList.Add(new Vector2Int(x,y));
             }
         }
 
-        System.Random prgn = new System.Random(seed);
-
-        GameObject checkPointsGroup = new GameObject("checkPointsGroup");
-
-        for (int i = 0; i < checkPointsQnt+1; i++)
+        for (int i = 0; i < _checkPointAmount + 1; i++)
         {
-            checkPointsPosition[i] = posList[prgn.Next(0, posList.Count)];
+            CheckPointPosition[i] = posList[prgn.Next(0, posList.Count)];
             if (i != 0)
             {
                 Instantiate(
-                    checkPointGameObject,
-                    new Vector3(checkPointsPosition[i].x, 0, checkPointsPosition[i].y),
-                    Quaternion.identity, checkPointsGroup.transform);
+                    _checkPointPrefab,
+                    new Vector3(CheckPointPosition[i].x, 0, CheckPointPosition[i].y),
+                    Quaternion.identity, _checkPointParent.transform);
 
                 var removedPos = new List<Vector2Int>(mapSize.x * mapSize.y);
 
                 for (int j = 0; j < posList.Count; j++)
                 {
-                    var distance = Vector2Int.Distance(posList[j], checkPointsPosition[i]);
+                    var distance = Vector2Int.Distance(posList[j], CheckPointPosition[i]);
 
-                    if (distance <= minimumDistanceBetweenPoints)
+                    if (distance <= _minDistBetweenPoints)
                         removedPos.Add(posList[j]);
                 }
 
                 posList = posList.Except(removedPos).ToList();
             }
         }
+    }
 
-        return checkPointsPosition;
+    private void DestroyExistingCheckPoints()
+    {
+        for (int i = 0; i < _checkPoints.Count; i++)
+            Destroy(_checkPoints[i]);
+
+        _checkPoints.RemoveAll(c => c == null);
     }
 }

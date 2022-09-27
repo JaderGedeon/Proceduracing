@@ -7,15 +7,6 @@ using UnityEditor;
 [CustomEditor(typeof(MapController))]
 public class MapControllerEditor : Editor
 {
-    public override void OnInspectorGUI()
-    {
-        MapController mapController = (MapController)target;
 
-        if (DrawDefaultInspector())
-        {
-            mapController.GetAllComponents();
-            mapController.GenerateMap();
-        }
-    }
 }
 #endif

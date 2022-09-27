@@ -7,14 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class QuickRace : MonoBehaviour
 {
-    public static int seed = 0;
-    public static bool randomSeed = false;
-
     [SerializeField] private TMP_InputField inputField;
 
     public void RandomRace()
     {
-        randomSeed = true;
+        GlobalSeed.GenerateRandomSeed();
         Debug.Log("Corrida Aleatória");
         SceneManager.LoadScene(1);
     }
@@ -23,9 +20,7 @@ public class QuickRace : MonoBehaviour
     {
         if (inputField.text != "")
         {
-            randomSeed = false;
-            seed = int.Parse(inputField.text);
-            Debug.Log(seed);
+            GlobalSeed.SetSeed(int.Parse(inputField.text));
             SceneManager.LoadScene(1);
         }
         else {

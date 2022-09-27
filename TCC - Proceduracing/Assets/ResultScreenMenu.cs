@@ -14,8 +14,6 @@ public class ResultScreenMenu : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1;
-        QuickRace.randomSeed = false;
-        QuickRace.seed = MapController.seed;
         SceneManager.LoadScene(1);
     }
 }

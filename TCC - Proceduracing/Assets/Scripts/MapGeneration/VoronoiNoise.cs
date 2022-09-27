@@ -6,19 +6,35 @@ using System.Collections.Generic;
 
 public class VoronoiNoise : MonoBehaviour
 {
-    public static Vertex[,] GenerateNoiseMap(Vector2Int mapSize, Vertex[,] noiseMap, MinMax minMax, int seed, int regionAmount, Vector2Int minMaxRadius, float biomeTransition)
+    private int _regionAmount;
+    private Vector2Int _regionMinMaxRadius;   
+    private float _regionTransition;
+
+    public VoronoiNoise(int regionAmount, Vector2Int regionMinMaxRadius, float regionTransition)
     {
-        Vertex[,] vertexMap = new Vertex[mapSize.x, mapSize.y];
+        _regionAmount = regionAmount;
+        _regionMinMaxRadius = regionMinMaxRadius;
+        _regionTransition = regionTransition;
+    }
+
+    public Vertex[,] VoronoiMap { get; private set; }
+
+    public void GenerateVoronoiMap(Vector2Int mapSize, Vertex[,] noiseMap, MinMax minMax, int seed)
+    {
+        VoronoiMap = new Vertex[mapSize.x, mapSize.y];
+
         Vector2Int centralPoint = new Vector2Int(mapSize.x / 2, mapSize.y / 2);
         System.Random prgn = new System.Random(seed);
 
         // OTIMIZAR ESSA LINHA     
         List<BiomeScriptableObject> biomeList = Resources.LoadAll<BiomeScriptableObject>("Data/ScriptableObjects/Biomes").ToList();
         biomeList = biomeList.OrderBy(b => prgn.Next()).ToList();
-        List<Vector2> biomePoints = PoissonDiscSampling.GeneratePoints(minMaxRadius.y, seed, mapSize, 9999, regionAmount - 1);
+
+        var poissonDisk = new PoissonDiskData(_regionMinMaxRadius.y, mapSize);
+        poissonDisk.Init(seed, _regionAmount - 1);
 
         Region baseRegion = new Region(biomeList[0]);
-        SubRegion subRegion = new SubRegion(biomePoints[0], biomeList[1], prgn.Next(minMaxRadius.x, minMaxRadius.y), biomeTransition);
+        SubRegion subRegion = new SubRegion(poissonDisk.PoissonDiscPoints[0], biomeList[1], prgn.Next(_regionMinMaxRadius.x, _regionMinMaxRadius.y), _regionTransition);
 
         for (int y = 0; y < mapSize.y; y++)
         {
@@ -29,7 +45,7 @@ public class VoronoiNoise : MonoBehaviour
                 VertexBiomeInfo vertexBiomeInfo = new VertexBiomeInfo();
                 vertexBiomeInfo.SubstituteValue(baseRegion, gradientTime);
 
-                if (regionAmount > 1)
+                if (_regionAmount > 1)
                 {
                     float distance = Vector2.Distance(new Vector2(x, y), subRegion.centerPosition);
 
@@ -49,7 +65,7 @@ public class VoronoiNoise : MonoBehaviour
                     }
                 }
 
-                vertexMap[x, y] = new Vertex
+                VoronoiMap[x, y] = new Vertex
                 {
                     friction = vertexBiomeInfo.friction,
                     color = vertexBiomeInfo.color,
@@ -57,7 +73,6 @@ public class VoronoiNoise : MonoBehaviour
                 };
             }
         }
-        return vertexMap;
     }
 
     private class Region

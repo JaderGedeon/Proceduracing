@@ -2,74 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PoissonDiscSampling
+public class PoissonDiscSampling
 {
+	private float _radius;
+	private int _seed;
+	private Vector2 _sampleRegionSize;
+	private int _numSamplesBeforeRejection;
 
-	public static List<Vector2> GeneratePoints(float radius, Vector2 sampleRegionSize, int numSamplesBeforeRejection = 30)
+    public PoissonDiscSampling(float radius, int seed, Vector2 sampleRegionSize)
+    {
+        _radius = radius;
+		_seed = seed;
+        _sampleRegionSize = sampleRegionSize;
+        _numSamplesBeforeRejection = 30;
+    }
+
+    public List<Vector2> PoissonDiscPoints { get; private set; }
+
+	public void GeneratePoints()
 	{
-		float cellSize = radius / Mathf.Sqrt(2);
+		float cellSize = _radius / Mathf.Sqrt(2);
+		System.Random prgn = new System.Random(_seed);
 
-		int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize), Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
-		List<Vector2> points = new List<Vector2>();
+		int[,] grid = new int[Mathf.CeilToInt(_sampleRegionSize.x / cellSize), Mathf.CeilToInt(_sampleRegionSize.y / cellSize)];
+		PoissonDiscPoints = new List<Vector2>();
 		List<Vector2> spawnPoints = new List<Vector2>();
 
-		spawnPoints.Add(sampleRegionSize / 2);
+		spawnPoints.Add(_sampleRegionSize / 2);
         while (spawnPoints.Count > 0)
-		{
-			int spawnIndex = Random.Range(0, spawnPoints.Count);
-			Vector2 spawnCentre = spawnPoints[spawnIndex];
-			bool candidateAccepted = false;
-
-			for (int i = 0; i < numSamplesBeforeRejection; i++)
-			{
-				float angle = Random.value * Mathf.PI * 2;
-				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-				Vector2 candidate = Vector2Int.FloorToInt(spawnCentre + dir * Random.Range(radius, 2 * radius));
-				if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid))
-				{
-					points.Add(candidate);
-					spawnPoints.Add(candidate);
-					grid[(int)(candidate.x / cellSize), (int)(candidate.y / cellSize)] = points.Count;
-					candidateAccepted = true;
-					break;
-				}
-			}
-			if (!candidateAccepted)
-			{
-				spawnPoints.RemoveAt(spawnIndex);
-			}
-
-		}
-
-		return points;
-	}
-
-	public static List<Vector2> GeneratePoints(float radius, int seed, Vector2 sampleRegionSize, int numSamplesBeforeRejection = 30, int maxPoints = -1)
-	{
-		float cellSize = radius / Mathf.Sqrt(2);
-		System.Random prgn = new System.Random(seed);
-
-		int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize), Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
-		List<Vector2> points = new List<Vector2>();
-		List<Vector2> spawnPoints = new List<Vector2>();
-
-		spawnPoints.Add(sampleRegionSize / 2);
-		while (spawnPoints.Count > 0 || maxPoints == points.Count)
 		{
 			int spawnIndex = prgn.Next(0, spawnPoints.Count);
 			Vector2 spawnCentre = spawnPoints[spawnIndex];
 			bool candidateAccepted = false;
 
-			for (int i = 0; i < numSamplesBeforeRejection; i++)
+			for (int i = 0; i < _numSamplesBeforeRejection; i++)
 			{
-				float angle = (prgn.Next(0,100) / 100f) * Mathf.PI * 2;
+				float angle = (prgn.Next(0, 100) / 100f) * Mathf.PI * 2;
 				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-				Vector2 candidate = Vector2Int.FloorToInt(spawnCentre + (dir * prgn.Next(Mathf.FloorToInt(radius), Mathf.FloorToInt(2 * radius))));
-				if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid))
+				Vector2 candidate = Vector2Int.FloorToInt(spawnCentre + (dir * prgn.Next(Mathf.FloorToInt(_radius), Mathf.FloorToInt(2 * _radius))));
+				if (IsValid(candidate, cellSize, _radius, grid))
 				{
-					points.Add(candidate);
+					PoissonDiscPoints.Add(candidate);
 					spawnPoints.Add(candidate);
-					grid[(int)(candidate.x / cellSize), (int)(candidate.y / cellSize)] = points.Count;
+					grid[(int)(candidate.x / cellSize), (int)(candidate.y / cellSize)] = PoissonDiscPoints.Count;
 					candidateAccepted = true;
 					break;
 				}
@@ -80,13 +55,49 @@ public static class PoissonDiscSampling
 			}
 
 		}
-
-		return points;
 	}
 
-	static bool IsValid(Vector2 candidate, Vector2 sampleRegionSize, float cellSize, float radius, List<Vector2> points, int[,] grid)
+	public void GeneratePoints(int maxPoints = -1)
 	{
-		if (candidate.x >= 0 && candidate.x < sampleRegionSize.x && candidate.y >= 0 && candidate.y < sampleRegionSize.y)
+		float cellSize = _radius / Mathf.Sqrt(2);
+		System.Random prgn = new System.Random(_seed);
+
+		int[,] grid = new int[Mathf.CeilToInt(_sampleRegionSize.x / cellSize), Mathf.CeilToInt(_sampleRegionSize.y / cellSize)];
+		PoissonDiscPoints = new List<Vector2>();
+		List<Vector2> spawnPoints = new List<Vector2>();
+
+		spawnPoints.Add(_sampleRegionSize / 2);
+		while (spawnPoints.Count > 0 || maxPoints == PoissonDiscPoints.Count)
+		{
+			int spawnIndex = prgn.Next(0, spawnPoints.Count);
+			Vector2 spawnCentre = spawnPoints[spawnIndex];
+			bool candidateAccepted = false;
+
+			for (int i = 0; i < _numSamplesBeforeRejection; i++)
+			{
+				float angle = (prgn.Next(0,100) / 100f) * Mathf.PI * 2;
+				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
+				Vector2 candidate = Vector2Int.FloorToInt(spawnCentre + (dir * prgn.Next(Mathf.FloorToInt(_radius), Mathf.FloorToInt(2 * _radius))));
+				if (IsValid(candidate, cellSize, _radius, grid))
+				{
+					PoissonDiscPoints.Add(candidate);
+					spawnPoints.Add(candidate);
+					grid[(int)(candidate.x / cellSize), (int)(candidate.y / cellSize)] = PoissonDiscPoints.Count;
+					candidateAccepted = true;
+					break;
+				}
+			}
+			if (!candidateAccepted)
+			{
+				spawnPoints.RemoveAt(spawnIndex);
+			}
+
+		}
+	}
+
+	private bool IsValid(Vector2 candidate, float cellSize, float radius, int[,] grid)
+	{
+		if (candidate.x >= 0 && candidate.x < _sampleRegionSize.x && candidate.y >= 0 && candidate.y < _sampleRegionSize.y)
 		{
 			int cellX = (int)(candidate.x / cellSize);
 			int cellY = (int)(candidate.y / cellSize);
@@ -102,7 +113,7 @@ public static class PoissonDiscSampling
 					int pointIndex = grid[x, y] - 1;
 					if (pointIndex != -1)
 					{
-						float sqrDst = (candidate - points[pointIndex]).sqrMagnitude;
+						float sqrDst = (candidate - PoissonDiscPoints[pointIndex]).sqrMagnitude;
 						if (sqrDst < radius * radius)
 						{
 							return false;

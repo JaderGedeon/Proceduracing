@@ -21,7 +21,7 @@ public class WheelController : MonoBehaviour
     [SerializeField] private float steeringSpeed;
     [SerializeField] private Rigidbody carRigidbody;
 
-    public Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
+    private Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
 
     private void Start()
     {
@@ -33,6 +33,14 @@ public class WheelController : MonoBehaviour
         UpdateWheelFricton();
         AnimateWheels();
         MoveVehicle();
+    }
+
+    public void Init(Vertex[,] vertexMap, Vector2Int startPosition) 
+    { 
+        gameObject.transform.position = 
+            new Vector3(startPosition.x, gameObject.transform.position.y, startPosition.y);
+
+        MapFrictionInfo = vertexMap;
     }
 
     private void UpdateWheelFricton()
