@@ -29,12 +29,20 @@ public class TournamentData : MonoBehaviour
 
         tournamentMap = new TournamentMap(floors, roomsPerFloor);
         tournamentMap.Init(GlobalSeed.TournamentSeed);
+        tournamentMap.CreateFinalRoom();
     }
 
     private void OnDrawGizmos()
     {
         foreach (var room in RoomMap)
         {
+            if (room.Floor == floors)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(new Vector3((roomsPerFloor - 1) / 2f, 1f, room.Floor + 1), new Vector3(1.3f, 1.3f, 1.3f)); // Boss
+                continue;
+            }
+
             Gizmos.color = room.NextRooms.Count > 0 ? Color.cyan : Color.red;
 
             if (room.Floor == 0)
@@ -44,7 +52,10 @@ public class TournamentData : MonoBehaviour
 
             foreach (var nextRoom in room.NextRooms)
             {
-                Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3(nextRoom.PositionOnFloor, 1f, nextRoom.Floor));
+                if(nextRoom.Floor == floors)
+                    Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3((roomsPerFloor - 1) / 2f, 1f, nextRoom.Floor + 1)); // Boss
+                else
+                    Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3(nextRoom.PositionOnFloor, 1f, nextRoom.Floor));
             }
         }
     }

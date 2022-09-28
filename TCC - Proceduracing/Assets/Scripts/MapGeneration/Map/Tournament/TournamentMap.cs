@@ -92,6 +92,23 @@ public class TournamentMap
         }
     }
 
+    public void CreateFinalRoom()
+    {
+        var finalRoom = new Room(_floors, 0);
+
+        for (int rf = 0; rf < _roomsPerFloor; rf++)
+        {
+            var room = RoomMap[rf + _roomsPerFloor * (_floors - 1)];
+
+            if (RoomMap.Exists(r => r.Floor == _floors - 2 && r.NextRooms.Exists(_r => _r == room)))
+            {
+                room.AddNextRoom(finalRoom);
+            }
+        }
+
+        RoomMap.Add(finalRoom);
+    }
+
 
     public class Room
     {
