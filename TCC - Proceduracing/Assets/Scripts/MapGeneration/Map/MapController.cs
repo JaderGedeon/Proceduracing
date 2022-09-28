@@ -35,12 +35,6 @@ public class MapController : MonoBehaviour
         vertexMapData = mapData.GetVertexMap();
         perlinData.Init(mapData.MapSize, Seed, mapData.Offset);
 
-        Debug.Log(mapData.MapSize);
-        Debug.Log(perlinData.NoiseMap.Length);
-        Debug.Log(perlinData.MinMax.Max);
-        Debug.Log(Seed);
-
-
         voronoiData.Init(mapData.MapSize, perlinData.NoiseMap, perlinData.MinMax, Seed);
         raceSettingsData.Init(vertexMapData, Seed);
         AssignValuesToVertex();
@@ -135,18 +129,4 @@ public class MapController : MonoBehaviour
 
         mapData.MeshRenderer.sharedMaterial.mainTexture = texture;
     }
-
-    /*
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(new Vector3(startPoint.x, 5, startPoint.y), 10f);
-
-        if (poissonDiskPoints != null)
-        {
-            foreach (Vector2 point in poissonDiskPoints)
-            {
-                Gizmos.DrawSphere(new Vector3(point.x, 5, point.y), displayRadius);
-            }
-        }
-    }*/
 }

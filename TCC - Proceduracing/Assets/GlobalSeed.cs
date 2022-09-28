@@ -18,6 +18,19 @@ public static class GlobalSeed
 
     public static void GenerateRandomSeed()
     {
-        SetSeed(Random.Range(0, 100000));
+        SetSeed(Random.Range(1, 100000));
+    }
+
+    public static void SetTournamentSeed(int seed)
+    {
+        if (seed > 0)
+            TournamentSeed = seed;
+        else
+            GenerateRandomTournamentSeed();
+    }
+
+    public static void GenerateRandomTournamentSeed()
+    {
+        SetTournamentSeed(Random.Range(1, 100000));
     }
 }
