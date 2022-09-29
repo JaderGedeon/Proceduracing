@@ -414,7 +414,7 @@ MonoBehaviour:
   - {fileID: 4778591672851845131, guid: b0d5264d5effb60478c2cb702baebd86, type: 3}
   - {fileID: 2933345185904347437, guid: 60feee59ed4509d408e402f6b5789a8b, type: 3}
   - {fileID: 95079816193166258, guid: 7163d24f8f20b194d8574b789dfd6e54, type: 3}
-  mapScale: 2
+  mapScale: {x: 2, y: 2, z: 2}
   randomnessScale: 0.002
 --- !u!4 &1096113337
 Transform:
