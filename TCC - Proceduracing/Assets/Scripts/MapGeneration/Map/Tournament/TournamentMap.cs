@@ -51,6 +51,18 @@ public class TournamentMap
 
             var nextRoomsQnt = prgn.Next(1, nextRooms.Count);
 
+            switch (prgn.Next(0, 100))
+            {
+                case int n when (n >= 90):
+                    break;
+                case int n when (n >= 75):
+                    nextRoomsQnt = nextRoomsQnt > 2 ? nextRoomsQnt : 2;
+                    break;
+                default:
+                    nextRoomsQnt = nextRoomsQnt > 1 ? nextRoomsQnt : 1;
+                    break;
+            }
+
             for (int i = 0; i < nextRoomsQnt; i++)
             {
                 var possibleRooms = nextRooms.Except(room.NextRooms).ToList();
@@ -61,7 +73,7 @@ public class TournamentMap
         
         void PassStartingPoints()
         {
-            var startPoints = prgn.Next(2, _roomsPerFloor);
+            var startPoints = prgn.Next(2, 3);
             for (int i = 0; i < startPoints; i++)
             {
                 while (true)

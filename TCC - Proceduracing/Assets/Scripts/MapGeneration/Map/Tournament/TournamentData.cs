@@ -8,13 +8,18 @@ public class TournamentData : MonoBehaviour
     [SerializeField] private int roomsPerFloor;
     [SerializeField] private int seed;
 
+    [SerializeField] private TournamentView tournamentView;
+
     private TournamentMap tournamentMap;
 
-    private List<TournamentMap.Room> RoomMap => tournamentMap.RoomMap;
+    public List<TournamentMap.Room> RoomMap => tournamentMap.RoomMap;
+
+    public int Floors { get => floors; private set => floors = value; }
+    public int RoomsPerFloor { get => roomsPerFloor; private set => roomsPerFloor = value; }
 
     public TournamentData(int floors, int roomsPerFloor)
     {
-        this.floors = floors;
+        this.Floors = floors;
         this.roomsPerFloor = roomsPerFloor;
     }
 
@@ -27,16 +32,18 @@ public class TournamentData : MonoBehaviour
     {
         GlobalSeed.SetTournamentSeed(seed); // Provisório
 
-        tournamentMap = new TournamentMap(floors, roomsPerFloor);
+        tournamentMap = new TournamentMap(Floors, roomsPerFloor);
         tournamentMap.Init(GlobalSeed.TournamentSeed);
         tournamentMap.CreateFinalRoom();
+
+        tournamentView.DisplayMap();
     }
 
     private void OnDrawGizmos()
     {
         foreach (var room in RoomMap)
         {
-            if (room.Floor == floors)
+            if (room.Floor == Floors)
             {
                 Gizmos.color = Color.black;
                 Gizmos.DrawCube(new Vector3((roomsPerFloor - 1) / 2f, 1f, room.Floor + 1), new Vector3(1.3f, 1.3f, 1.3f)); // Boss
@@ -52,7 +59,7 @@ public class TournamentData : MonoBehaviour
 
             foreach (var nextRoom in room.NextRooms)
             {
-                if(nextRoom.Floor == floors)
+                if(nextRoom.Floor == Floors)
                     Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3((roomsPerFloor - 1) / 2f, 1f, nextRoom.Floor + 1)); // Boss
                 else
                     Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3(nextRoom.PositionOnFloor, 1f, nextRoom.Floor));
