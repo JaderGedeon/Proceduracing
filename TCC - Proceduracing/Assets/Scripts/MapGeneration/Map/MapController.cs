@@ -16,8 +16,6 @@ public class MapController : MonoBehaviour
 
     private Vertex[,] vertexMapData;
 
-    [SerializeField] TextMeshProUGUI checkPointsUI;
-
     public static bool jaAtribuiu = false;
 
     private int Seed => GlobalSeed.Instance.Seed;
@@ -47,14 +45,6 @@ public class MapController : MonoBehaviour
         StructuresPlacement();
 
         wheelController.Init(vertexMapData, raceSettingsData.CheckPointPosition[0]);
-
-        UpdateCheckPointUI();
-    }
-
-    private void UpdateCheckPointUI()
-    {
-        checkPointsUI.text = 
-            raceSettingsData.CheckPointsCollected + " / " + raceSettingsData.CheckPointsAmount;
     }
 
     private void StructuresPlacement()

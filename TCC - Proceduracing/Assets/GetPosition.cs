@@ -7,6 +7,13 @@ public class GetPosition : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI position;
     [SerializeField] private List<GameObject> positionList;
+    [SerializeField] private GameObject backGround;
+    [SerializeField] private GameObject failBackGround;
+
+
+    [SerializeField] private GameObject QuickRaceCanvas;
+    [SerializeField] private GameObject NextRaceTournament;
+    [SerializeField] private GameObject FailBackToMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +43,38 @@ public class GetPosition : MonoBehaviour
                     child.GetComponent<TextMeshProUGUI>().text = ConvertTime(opponents[i]);
                 }
             }
+        }
+
+        if (ClockController.position == 4)
+        {
+            backGround.SetActive(false);
+        }
+
+        if (GlobalSeed.Instance.RaceType == RaceType.TOURNAMENT)
+        {
+            if (TournamentData.Instance.CurrentRoom.Floor == TournamentData.Instance.Floors)
+            {
+                backGround.SetActive(false);
+                FailBackToMenu.SetActive(true);
+                if (ClockController.position != 4)
+                {
+                    failBackGround.SetActive(false);
+                }
+                return;
+            }
+
+            if (ClockController.position == 4)
+            {
+                FailBackToMenu.SetActive(true);
+            }
+            else
+            {
+                NextRaceTournament.SetActive(true);
+            }
+        } 
+        else
+        {
+            QuickRaceCanvas.SetActive(true);
         }
     }
 

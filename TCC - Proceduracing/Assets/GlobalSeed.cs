@@ -13,6 +13,8 @@ public class GlobalSeed : MonoBehaviour
 
     public int Seed { get; private set; }
 
+    public RaceType RaceType { get; set; }
+
     public int TournamentSeed { get; private set; }
 
     public void SetSeed(int seed)
@@ -40,4 +42,10 @@ public class GlobalSeed : MonoBehaviour
     {
         SetTournamentSeed(Random.Range(1, 100000));
     }
+}
+
+public enum RaceType
+{ 
+    QUICK_RACE,
+    TOURNAMENT,
 }

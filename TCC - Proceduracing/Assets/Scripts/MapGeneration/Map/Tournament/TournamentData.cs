@@ -46,10 +46,12 @@ public class TournamentData : MonoBehaviour
 
     public void Init()
     {
+        GlobalSeed.Instance.RaceType = RaceType.TOURNAMENT;
         tournamentMap = new TournamentMap(Floors, roomsPerFloor);
         tournamentMap.Init();
         tournamentMap.CreateFinalRoom();
         tournamentMap.PassSeeds();
+        PassedRooms = new List<TournamentMap.Room>();
     }
 
     private void OnDrawGizmos()

@@ -15,7 +15,7 @@ MonoBehaviour:
   biomeType: 0
   rarity: 0
   heightMultiplier: 0
-  friction: 1
+  friction: 1.5
   structures:
   - {fileID: 11400000, guid: dcdab26768005594d86bd52dca3da3bd, type: 2}
   vegetation: []

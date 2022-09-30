@@ -290,7 +290,6 @@ MonoBehaviour:
   poissonDiskData: {fileID: 891289630}
   raceSettingsData: {fileID: 2047579334}
   wheelController: {fileID: 2938110245874689370}
-  checkPointsUI: {fileID: 1003894015}
 --- !u!114 &87502662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2189,7 +2188,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 56219476}
   mapSize: {x: 255, y: 255}
-  seed: 2
   offset: {x: 0, y: 0}
   displayMode: 1
   flatShading: 0
@@ -6470,6 +6468,7 @@ MonoBehaviour:
   border: 0.2
   checkPointsCollected: 0
   opponentsController: {fileID: 2047579335}
+  checkPointsUI: {fileID: 1003894015}
 --- !u!114 &2047579335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6484,12 +6483,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   opponents:
   - time: 119.04801
-    difficulty: 5
+    difficulty: 25
     position: {fileID: 1019489897}
     order: {fileID: 207707826}
     clock: {fileID: 182054933}
   - time: 143.04834
-    difficulty: 25
+    difficulty: 35
     position: {fileID: 834247082}
     order: {fileID: 107814867}
     clock: {fileID: 1236140028}
@@ -6498,8 +6497,8 @@ MonoBehaviour:
     position: {fileID: 281988684}
     order: {fileID: 572574523}
     clock: {fileID: 1267331608}
-  humanNormalize: 0.15
-  maxVariation: 0.1
+  humanNormalize: 0.4
+  maxVariation: 0.2
 --- !u!1 &2056800348
 GameObject:
   m_ObjectHideFlags: 0

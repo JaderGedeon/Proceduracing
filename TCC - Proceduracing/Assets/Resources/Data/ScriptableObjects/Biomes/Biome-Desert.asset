@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   biomeType: 0
   rarity: 0
-  heightMultiplier: 4.48
-  friction: 1.5
+  heightMultiplier: 5
+  friction: 1.9
   structures:
   - {fileID: 11400000, guid: 167b0bb530dee2a40ba7aed735d6a272, type: 2}
   - {fileID: 11400000, guid: 7520d442c8c69f54bae8d22af7abce88, type: 2}

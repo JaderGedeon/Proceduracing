@@ -16,4 +16,10 @@ public class ResultScreenMenu : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
+
+    public void BackToTournament()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(3);
+    }
 }

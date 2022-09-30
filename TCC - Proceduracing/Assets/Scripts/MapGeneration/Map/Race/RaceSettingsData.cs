@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RaceSettingsData : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class RaceSettingsData : MonoBehaviour
     [SerializeField] private float border;
     [SerializeField] private int checkPointsCollected = 0;
     [SerializeField] private OpponentsController opponentsController;
+    [SerializeField] TextMeshProUGUI checkPointsUI;
 
     private RaceController raceController;
 
@@ -27,6 +30,7 @@ public class RaceSettingsData : MonoBehaviour
             checkPointsAmount, minDistanceBetweenPoints, border);
 
         raceController.GenerateRace(vertexMap, seed);
+        UpdateCheckPointUI();
     }
 
     public void PassOpponentsTime(int seed, float averageHeight, float averageFriction)
@@ -92,6 +96,12 @@ public class RaceSettingsData : MonoBehaviour
         CheckPoint.CheckPointCaught -= OnCheckPointCollected;
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.PageDown))
+            OnCheckPointCollected();
+    }
+
     private void ResetCheckPointsCount()
     {
         checkPointsCollected = 0;
@@ -100,13 +110,17 @@ public class RaceSettingsData : MonoBehaviour
     private void OnCheckPointCollected()
     {
         checkPointsCollected += 1;
-        //UpdateCheckPointUI();
+        UpdateCheckPointUI();
 
         if (checkPointsCollected == checkPointsAmount)
         {
-            //SceneManager.LoadScene(2);
+            SceneManager.LoadScene(2);
         }
+    }
 
-        //Debug.Log(checkPointsCollected);
+    private void UpdateCheckPointUI()
+    {
+        checkPointsUI.text =
+            CheckPointsCollected + " / " + CheckPointsAmount;
     }
 }

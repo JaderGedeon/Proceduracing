@@ -40,7 +40,7 @@ public class TournamentView : MonoBehaviour
                     transform
                 );
                 var mapClickable = newRoom.GetComponent<MapClickable>();
-                mapClickable.Init(room.Floor, room.Seed, MapIconType.BOSS);
+                mapClickable.Init(room, MapIconType.BOSS);
 
                 ChangeMapIconProperties(room, mapClickable);
 
@@ -58,7 +58,7 @@ public class TournamentView : MonoBehaviour
                     transform);
 
                 var mapClickable = newRoom.GetComponent<MapClickable>();
-                mapClickable.Init(room.Floor, room.Seed, MapIconType.RACE);
+                mapClickable.Init(room, MapIconType.RACE);
 
                 ChangeMapIconProperties(room, mapClickable);
             }

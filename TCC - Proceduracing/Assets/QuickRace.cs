@@ -12,6 +12,7 @@ public class QuickRace : MonoBehaviour
     public void RandomRace()
     {
         GlobalSeed.Instance.GenerateRandomSeed();
+        GlobalSeed.Instance.RaceType = RaceType.QUICK_RACE;
         Debug.Log("Corrida Aleatória");
         SceneManager.LoadScene(1);
     }
@@ -21,6 +22,7 @@ public class QuickRace : MonoBehaviour
         if (inputField.text != "")
         {
             GlobalSeed.Instance.SetSeed(int.Parse(inputField.text));
+            GlobalSeed.Instance.RaceType = RaceType.QUICK_RACE;
             SceneManager.LoadScene(1);
         }
         else {

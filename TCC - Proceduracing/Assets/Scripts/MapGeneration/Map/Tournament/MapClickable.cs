@@ -10,18 +10,15 @@ public class MapClickable : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private List<Material> materialList;
 
-    private int difficultyFloor;
-    private int seed;
+    private TournamentMap.Room room;
     private MapIconType iconType;
 
     private bool isClickable = false;
     public bool IsClickable { get => isClickable; set => isClickable = value; }
 
-    public void Init(int difficultyFloor, int seed, MapIconType iconType)
+    public void Init(TournamentMap.Room room, MapIconType iconType)
     {
-        this.difficultyFloor = difficultyFloor;
-        this.seed = seed;
-        this.iconType = iconType;
+        this.room = room;
     }
 
     #region Animation
@@ -97,16 +94,19 @@ public class MapClickable : MonoBehaviour
     {
         if (IsClickable)
         {
+            TournamentData.Instance.CurrentRoom = room;
+            TournamentData.Instance.PassedRooms.Add(room);
+
             if (iconType == MapIconType.RACE)
             {
-                GlobalSeed.Instance.SetSeed(seed);
+                GlobalSeed.Instance.SetSeed(room.Seed);
                 SceneManager.LoadScene(1);
             }
 
             if (iconType == MapIconType.BOSS)
             {
                 //GlobalOpponents.Instance
-                GlobalSeed.Instance.SetSeed(seed);
+                GlobalSeed.Instance.SetSeed(room.Seed);
                 SceneManager.LoadScene(1);
             }
         }
