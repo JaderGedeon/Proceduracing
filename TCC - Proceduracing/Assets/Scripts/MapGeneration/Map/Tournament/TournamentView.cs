@@ -27,7 +27,6 @@ public class TournamentView : MonoBehaviour
     public void DisplayMap()
     {
         System.Random prgn = new System.Random(GlobalSeed.Instance.TournamentSeed);
-
         foreach (var room in Tournament.RoomMap)
         {
             if (room.Floor == Tournament.Floors)
@@ -40,6 +39,11 @@ public class TournamentView : MonoBehaviour
                     Quaternion.identity,
                     transform
                 );
+                var mapClickable = newRoom.GetComponent<MapClickable>();
+                mapClickable.Init(room.Floor, room.Seed, MapIconType.BOSS);
+
+                ChangeMapIconProperties(room, mapClickable);
+
                 continue;
             }
 
@@ -52,6 +56,11 @@ public class TournamentView : MonoBehaviour
                     pos,
                     Quaternion.identity,
                     transform);
+
+                var mapClickable = newRoom.GetComponent<MapClickable>();
+                mapClickable.Init(room.Floor, room.Seed, MapIconType.RACE);
+
+                ChangeMapIconProperties(room, mapClickable);
             }
             
             /*
@@ -64,6 +73,49 @@ public class TournamentView : MonoBehaviour
                     Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3(nextRoom.PositionOnFloor, 1f, nextRoom.Floor));
             }
             */
+        }
+    }
+
+    public void ChangeMapIconProperties(TournamentMap.Room room, MapClickable mapClickable)
+    {
+        if (TournamentData.Instance.CurrentRoom == null)
+        {
+            if (room.Floor == 0)
+            {
+                mapClickable.ChangeColor(MapIconColor.POSSIBLE);
+                mapClickable.IsClickable = true;
+            }
+            else
+            {
+                mapClickable.ChangeColor(MapIconColor.LOCKED);
+                mapClickable.IsClickable = false;
+            }
+            return;
+        }
+        else
+        {
+            if (TournamentData.Instance.CurrentRoom.NextRooms.Exists(r => r == room))
+            {
+                mapClickable.ChangeColor(MapIconColor.POSSIBLE);
+                mapClickable.IsClickable = true;
+                return;
+            }
+
+            mapClickable.IsClickable = false;
+
+            if (TournamentData.Instance.CurrentRoom == room)
+            {
+                mapClickable.ChangeColor(MapIconColor.CURRENT);
+                return;
+            }
+
+            if (TournamentData.Instance.PassedRooms.Exists(r => r == room))
+            {
+                mapClickable.ChangeColor(MapIconColor.DONE);
+                return;
+            }
+
+            mapClickable.ChangeColor(MapIconColor.LOCKED);
         }
     }
 

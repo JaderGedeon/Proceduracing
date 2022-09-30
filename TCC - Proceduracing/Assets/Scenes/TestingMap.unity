@@ -328,9 +328,6 @@ GameObject:
   - component: {fileID: 531406462}
   - component: {fileID: 531406461}
   - component: {fileID: 531406464}
-  - component: {fileID: 531406467}
-  - component: {fileID: 531406466}
-  - component: {fileID: 531406465}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -396,13 +393,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531406460}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 4.97, y: 5.47, z: 0.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &531406464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,63 +433,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &531406465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531406460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0e97683d5ff0042aa2347003698c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tournament: {fileID: 0}
-  MapClickables:
-  - {fileID: 4778591672851845131, guid: b0d5264d5effb60478c2cb702baebd86, type: 3}
-  - {fileID: 2933345185904347437, guid: 60feee59ed4509d408e402f6b5789a8b, type: 3}
-  - {fileID: 95079816193166258, guid: 7163d24f8f20b194d8574b789dfd6e54, type: 3}
-  mapScale: {x: 2, y: 2, z: 2}
-  randomnessScale: 0.002
---- !u!114 &531406466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531406460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0e97683d5ff0042aa2347003698c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tournament: {fileID: 0}
-  MapClickables:
-  - {fileID: 4778591672851845131, guid: b0d5264d5effb60478c2cb702baebd86, type: 3}
-  - {fileID: 2933345185904347437, guid: 60feee59ed4509d408e402f6b5789a8b, type: 3}
-  - {fileID: 95079816193166258, guid: 7163d24f8f20b194d8574b789dfd6e54, type: 3}
-  mapScale: {x: 2, y: 2, z: 2}
-  randomnessScale: 0.002
---- !u!114 &531406467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531406460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0e97683d5ff0042aa2347003698c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tournament: {fileID: 0}
-  MapClickables:
-  - {fileID: 4778591672851845131, guid: b0d5264d5effb60478c2cb702baebd86, type: 3}
-  - {fileID: 2933345185904347437, guid: 60feee59ed4509d408e402f6b5789a8b, type: 3}
-  - {fileID: 95079816193166258, guid: 7163d24f8f20b194d8574b789dfd6e54, type: 3}
-  mapScale: {x: 2, y: 2, z: 2}
-  randomnessScale: 0.002
 --- !u!1 &1001325645
 GameObject:
   m_ObjectHideFlags: 0

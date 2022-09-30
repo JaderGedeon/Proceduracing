@@ -17,7 +17,7 @@ public class MapClickable : MonoBehaviour
     private bool isClickable = false;
     public bool IsClickable { get => isClickable; set => isClickable = value; }
 
-    public MapClickable(int difficultyFloor, int seed, MapIconType iconType)
+    public void Init(int difficultyFloor, int seed, MapIconType iconType)
     {
         this.difficultyFloor = difficultyFloor;
         this.seed = seed;

@@ -9,12 +9,16 @@ public class PoissonDiscSampling
 	private Vector2 _sampleRegionSize;
 	private int _numSamplesBeforeRejection;
 
-    public PoissonDiscSampling(float radius, int seed, Vector2 sampleRegionSize)
+    private System.Random prgn;
+
+	public PoissonDiscSampling(float radius, int seed, Vector2 sampleRegionSize)
     {
         _radius = radius;
 		_seed = seed;
         _sampleRegionSize = sampleRegionSize;
         _numSamplesBeforeRejection = 30;
+
+		prgn = new System.Random(GlobalSeed.Instance.Seed);
     }
 
     public List<Vector2> PoissonDiscPoints { get; private set; }
@@ -22,7 +26,6 @@ public class PoissonDiscSampling
 	public void GeneratePoints()
 	{
 		float cellSize = _radius / Mathf.Sqrt(2);
-		System.Random prgn = new System.Random(_seed);
 
 		int[,] grid = new int[Mathf.CeilToInt(_sampleRegionSize.x / cellSize), Mathf.CeilToInt(_sampleRegionSize.y / cellSize)];
 		PoissonDiscPoints = new List<Vector2>();
@@ -58,9 +61,8 @@ public class PoissonDiscSampling
 	}
 
 	public void GeneratePoints(int maxPoints = -1)
-	{
+	{ 
 		float cellSize = _radius / Mathf.Sqrt(2);
-		System.Random prgn = new System.Random(_seed);
 
 		int[,] grid = new int[Mathf.CeilToInt(_sampleRegionSize.x / cellSize), Mathf.CeilToInt(_sampleRegionSize.y / cellSize)];
 		PoissonDiscPoints = new List<Vector2>();
@@ -93,6 +95,10 @@ public class PoissonDiscSampling
 			}
 
 		}
+
+		if (PoissonDiscPoints.Count == 0)
+			GeneratePoints(1);
+
 	}
 
 	private bool IsValid(Vector2 candidate, float cellSize, float radius, int[,] grid)

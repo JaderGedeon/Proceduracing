@@ -34,6 +34,7 @@ public class VoronoiNoise
         poissonDisk.Init(seed, _regionAmount - 1);
 
         Region baseRegion = new Region(biomeList[0]);
+
         SubRegion subRegion = new SubRegion(poissonDisk.PoissonDiscPoints[0], biomeList[1], prgn.Next(_regionMinMaxRadius.x, _regionMinMaxRadius.y), _regionTransition);
 
         for (int y = 0; y < mapSize.y; y++)
@@ -73,6 +74,8 @@ public class VoronoiNoise
                 };
             }
         }
+
+        Debug.Log("aabc");
     }
 
     private class Region

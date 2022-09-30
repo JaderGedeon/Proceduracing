@@ -27,11 +27,16 @@ public class TournamentData : MonoBehaviour
     private int currentFloor = 0;
     private TournamentMap.Room currentRoom;
 
+    private List<TournamentMap.Room> passedRooms;
+
     private TournamentMap tournamentMap;
 
     public List<TournamentMap.Room> RoomMap => tournamentMap.RoomMap;
     public int Floors { get => floors; private set => floors = value; }
     public int RoomsPerFloor { get => roomsPerFloor; private set => roomsPerFloor = value; }
+    public int CurrentFloor { get => currentFloor; set => currentFloor = value; }
+    public TournamentMap.Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
+    public List<TournamentMap.Room> PassedRooms { get => passedRooms; set => passedRooms = value; }
 
     public TournamentData(int floors, int roomsPerFloor)
     {
@@ -42,8 +47,9 @@ public class TournamentData : MonoBehaviour
     public void Init()
     {
         tournamentMap = new TournamentMap(Floors, roomsPerFloor);
-        tournamentMap.Init(GlobalSeed.Instance.TournamentSeed);
+        tournamentMap.Init();
         tournamentMap.CreateFinalRoom();
+        tournamentMap.PassSeeds();
     }
 
     private void OnDrawGizmos()

@@ -10,17 +10,19 @@ public class TournamentMap
 
     public List<Room> RoomMap { get; private set; }
 
+    private System.Random prgn;
+
     public TournamentMap(int floors, int roomsPerFloor)
     {
         _floors = floors;
         _roomsPerFloor = roomsPerFloor;
         RoomMap = new List<Room>();
+
+        prgn = new System.Random(GlobalSeed.Instance.TournamentSeed);
     }
 
-    public void Init(int seed)
+    public void Init()
     {
-        System.Random prgn = new System.Random(seed);
-
         for (int f = 0; f < _floors; f++)
         {
             for (int r = 0; r < _roomsPerFloor; r++)
@@ -121,6 +123,15 @@ public class TournamentMap
         RoomMap.Add(finalRoom);
     }
 
+    public void PassSeeds()
+    {
+        foreach (var room in RoomMap)
+        {
+            room.Seed = prgn.Next(1, 999999);
+        }
+
+    }
+
 
     public class Room
     {
@@ -129,6 +140,8 @@ public class TournamentMap
 
         public int Floor { get; private set; }
         public int PositionOnFloor { get; private set; }
+
+        public int Seed { get; set; }
 
         public Room(int floor, int positionOnFloor)
         {
