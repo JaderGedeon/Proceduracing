@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject playAgain;
 
     // Update is called once per frame
     void Update()
@@ -24,6 +25,10 @@ public class PauseMenu : MonoBehaviour
 
         GUI.SetActive(!isPaused);
         pauseMenu.SetActive(isPaused);
+
+        if (GlobalSeed.Instance.RaceType == RaceType.TOURNAMENT)
+            playAgain.SetActive(false);
+
         Time.timeScale = isPaused ? 0 : 1;
     }
 }

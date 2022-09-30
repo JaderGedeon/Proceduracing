@@ -27,6 +27,8 @@ public class TournamentView : MonoBehaviour
     public void DisplayMap()
     {
         System.Random prgn = new System.Random(GlobalSeed.Instance.TournamentSeed);
+        var mapClickables = new List<MapClickable>();
+
         foreach (var room in Tournament.RoomMap)
         {
             if (room.Floor == Tournament.Floors)
@@ -42,6 +44,7 @@ public class TournamentView : MonoBehaviour
                 var mapClickable = newRoom.GetComponent<MapClickable>();
                 mapClickable.Init(room, MapIconType.BOSS);
 
+                mapClickables.Add(mapClickable);
                 ChangeMapIconProperties(room, mapClickable);
 
                 continue;
@@ -60,19 +63,27 @@ public class TournamentView : MonoBehaviour
                 var mapClickable = newRoom.GetComponent<MapClickable>();
                 mapClickable.Init(room, MapIconType.RACE);
 
+                mapClickables.Add(mapClickable);
                 ChangeMapIconProperties(room, mapClickable);
-            }
-            
-            /*
-            foreach (var nextRoom in room.NextRooms)
-            {
-                if (nextRoom.Floor == Tournament.Floors)
+            }    
+        }
 
-                    Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3((Tournament.RoomsPerFloor - 1) / 2f, 1f, nextRoom.Floor + 1)); // Boss
-                else
-                    Gizmos.DrawLine(new Vector3(room.PositionOnFloor, 1f, room.Floor), new Vector3(nextRoom.PositionOnFloor, 1f, nextRoom.Floor));
+        foreach (var mapClickable in mapClickables)
+        {
+            foreach (var nextRooms in mapClickable.room.NextRooms)
+            {
+                var nextRoom = mapClickables.Find(map => map.room == nextRooms);
+
+                var line = CreateLineRenderer();
+
+                var pos1 = mapClickable.transform.position;
+                var pos2 = nextRoom.transform.position;
+
+                pos1.y = -0.5f;
+                pos2.y = -0.5f;
+
+                line.SetPositions(new Vector3[] { pos1, pos2 });
             }
-            */
         }
     }
 
@@ -128,5 +139,18 @@ public class TournamentView : MonoBehaviour
         return Vector3.Scale(new Vector3(x,y,z), mapScale);
     }
 
-    public float MultiplyFloat(float a, float b) => a * b;
+    public LineRenderer CreateLineRenderer()
+    {
+        var child = new GameObject();
+
+        LineRenderer lineRenderer = child.AddComponent<LineRenderer>();
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.useWorldSpace = true;
+        lineRenderer.startColor = Color.black;
+        lineRenderer.endColor = Color.black;
+
+        return lineRenderer;
+    }
 }

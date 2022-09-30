@@ -10,7 +10,7 @@ public class MapClickable : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private List<Material> materialList;
 
-    private TournamentMap.Room room;
+    public TournamentMap.Room room;
     private MapIconType iconType;
 
     private bool isClickable = false;

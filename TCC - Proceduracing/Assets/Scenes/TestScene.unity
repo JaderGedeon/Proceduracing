@@ -1591,6 +1591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUI: {fileID: 550288383}
   pauseMenu: {fileID: 301501125}
+  playAgain: {fileID: 1229861200}
 --- !u!1 &393080182
 GameObject:
   m_ObjectHideFlags: 0
