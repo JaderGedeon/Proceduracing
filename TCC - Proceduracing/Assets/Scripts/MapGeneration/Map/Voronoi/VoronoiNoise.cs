@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class VoronoiNoise : MonoBehaviour
+public class VoronoiNoise
 {
     private int _regionAmount;
     private Vector2Int _regionMinMaxRadius;   

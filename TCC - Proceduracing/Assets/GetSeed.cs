@@ -10,6 +10,6 @@ public class GetSeed : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        seed.text = ("#" + GlobalSeed.Seed);
+        seed.text = ("#" + GlobalSeed.Instance.Seed);
     }
 }

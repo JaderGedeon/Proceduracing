@@ -20,7 +20,7 @@ public class MapController : MonoBehaviour
 
     public static bool jaAtribuiu = false;
 
-    private int Seed => GlobalSeed.Seed;
+    private int Seed => GlobalSeed.Instance.Seed;
 
     private float _averageMapHeight;
     private float _averageMapFriction;

@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GlobalSeed
+public class GlobalSeed : MonoBehaviour
 {
-    public static int Seed { get; private set; }
+    public static GlobalSeed Instance;
 
-    public static int TournamentSeed { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
+    }
 
-    public static void SetSeed(int seed)
+    public int Seed { get; private set; }
+
+    public int TournamentSeed { get; private set; }
+
+    public void SetSeed(int seed)
     {
         if (seed > 0)
             Seed = seed;
@@ -16,12 +23,12 @@ public static class GlobalSeed
             GenerateRandomSeed();
     }
 
-    public static void GenerateRandomSeed()
+    public void GenerateRandomSeed()
     {
         SetSeed(Random.Range(1, 100000));
     }
 
-    public static void SetTournamentSeed(int seed)
+    public void SetTournamentSeed(int seed)
     {
         if (seed > 0)
             TournamentSeed = seed;
@@ -29,7 +36,7 @@ public static class GlobalSeed
             GenerateRandomTournamentSeed();
     }
 
-    public static void GenerateRandomTournamentSeed()
+    public void GenerateRandomTournamentSeed()
     {
         SetTournamentSeed(Random.Range(1, 100000));
     }

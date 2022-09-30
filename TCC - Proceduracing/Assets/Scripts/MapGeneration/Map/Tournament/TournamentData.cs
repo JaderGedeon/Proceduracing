@@ -4,39 +4,46 @@ using UnityEngine;
 
 public class TournamentData : MonoBehaviour
 {
+    public static TournamentData Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
     [SerializeField] private int floors;
     [SerializeField] private int roomsPerFloor;
     [SerializeField] private int seed;
 
-    [SerializeField] private TournamentView tournamentView;
+    private int currentFloor = 0;
+    private TournamentMap.Room currentRoom;
 
     private TournamentMap tournamentMap;
 
     public List<TournamentMap.Room> RoomMap => tournamentMap.RoomMap;
-
     public int Floors { get => floors; private set => floors = value; }
     public int RoomsPerFloor { get => roomsPerFloor; private set => roomsPerFloor = value; }
 
     public TournamentData(int floors, int roomsPerFloor)
     {
-        this.Floors = floors;
-        this.roomsPerFloor = roomsPerFloor;
-    }
-
-    private void Start()
-    {
-        Init();
+        Floors = floors;
+        RoomsPerFloor = roomsPerFloor;
     }
 
     public void Init()
     {
-        GlobalSeed.SetTournamentSeed(seed); // Provisório
-
         tournamentMap = new TournamentMap(Floors, roomsPerFloor);
-        tournamentMap.Init(GlobalSeed.TournamentSeed);
+        tournamentMap.Init(GlobalSeed.Instance.TournamentSeed);
         tournamentMap.CreateFinalRoom();
-
-        tournamentView.DisplayMap();
     }
 
     private void OnDrawGizmos()

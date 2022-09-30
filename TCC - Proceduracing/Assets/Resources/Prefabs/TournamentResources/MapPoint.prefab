@@ -139,3 +139,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046abfe9db7fe044ebc89ba36d818d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 6646270427823678512}
+  materialList:
+  - {fileID: 2100000, guid: 7b88d52a9af3bb144845b77db4d3f3e8, type: 2}
+  - {fileID: 2100000, guid: 41629b5f699bf6343bc71deae4f01ca2, type: 2}
+  - {fileID: 2100000, guid: b5b9903bc3cc76641ad33df57371ae7f, type: 2}
+  - {fileID: 2100000, guid: 52f607b9278b2704e912e7405b452c40, type: 2}
+  doHoverAnim: 1
+  MaxHoverScale: 1
+  hoverAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.13679
+      outSlope: -0.13679
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.52095205
+    - serializedVersion: 3
+      time: 0.4696807
+      value: 1.1305785
+      inSlope: 0.538928
+      outSlope: 0.538928
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13217066
+      outWeight: 0.15191482
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.12046902
+      outSlope: 0.12046902
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.21148936
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hoverAnimDuration: 0.15

@@ -12,8 +12,6 @@ public class TournamentView : MonoBehaviour
 
     [SerializeField] private List<MapClickable> MapClickables;
 
-    private List<GameObject> rooms;
-
     [SerializeField] private Vector3 mapScale;
     [SerializeField] private float randomnessScale;
 
@@ -21,13 +19,14 @@ public class TournamentView : MonoBehaviour
 
     private void Start()
     {
-        rooms = new List<GameObject>();
-        random = new System.Random(GlobalSeed.TournamentSeed);
+        random = new System.Random(GlobalSeed.Instance.TournamentSeed);
+        Tournament = TournamentData.Instance;
+        DisplayMap();
     }
 
     public void DisplayMap()
     {
-        System.Random prgn = new System.Random(GlobalSeed.TournamentSeed);
+        System.Random prgn = new System.Random(GlobalSeed.Instance.TournamentSeed);
 
         foreach (var room in Tournament.RoomMap)
         {
@@ -41,7 +40,6 @@ public class TournamentView : MonoBehaviour
                     Quaternion.identity,
                     transform
                 );
-                rooms.Add(newRoom);
                 continue;
             }
 
@@ -54,7 +52,6 @@ public class TournamentView : MonoBehaviour
                     pos,
                     Quaternion.identity,
                     transform);
-                rooms.Add(newRoom);
             }
             
             /*
