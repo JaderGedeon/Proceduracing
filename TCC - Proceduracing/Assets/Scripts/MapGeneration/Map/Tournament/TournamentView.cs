@@ -79,8 +79,8 @@ public class TournamentView : MonoBehaviour
                 var pos1 = mapClickable.transform.position;
                 var pos2 = nextRoom.transform.position;
 
-                pos1.y = -0.5f;
-                pos2.y = -0.5f;
+                pos1.y = -0.1f;
+                pos2.y = -0.1f;
 
                 line.SetPositions(new Vector3[] { pos1, pos2 });
             }
@@ -144,12 +144,13 @@ public class TournamentView : MonoBehaviour
         var child = new GameObject();
 
         LineRenderer lineRenderer = child.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.positionCount = 2;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.useWorldSpace = true;
-        lineRenderer.startColor = Color.black;
-        lineRenderer.endColor = Color.black;
+        lineRenderer.startColor = Color.gray;
+        lineRenderer.endColor = Color.gray;
 
         return lineRenderer;
     }
