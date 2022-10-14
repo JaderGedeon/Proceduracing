@@ -80,6 +80,7 @@ public class MapController : MonoBehaviour
                 {
                     height = pVertex.height,
                     friction = vVertex.friction,
+                    drag = vVertex.drag,
                     color = vVertex.color,
                     biomeList = vVertex.biomeList,
                 };

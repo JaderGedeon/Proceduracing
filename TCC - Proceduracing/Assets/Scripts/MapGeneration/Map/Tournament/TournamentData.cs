@@ -24,7 +24,7 @@ public class TournamentData : MonoBehaviour
     [SerializeField] private int roomsPerFloor;
     [SerializeField] private int seed;
 
-    private int currentFloor = 0;
+    private int currentFloor;
     private TournamentMap.Room currentRoom;
 
     private List<TournamentMap.Room> passedRooms;
@@ -46,6 +46,9 @@ public class TournamentData : MonoBehaviour
 
     public void Init()
     {
+        CurrentFloor = 0;
+        CurrentRoom = null;
+
         GlobalSeed.Instance.RaceType = RaceType.TOURNAMENT;
         tournamentMap = new TournamentMap(Floors, roomsPerFloor);
         tournamentMap.Init();

@@ -7,6 +7,7 @@ public class BiomeScriptableObject : ScriptableObject
     public Rarity rarity;
     public float heightMultiplier;
     public float friction;
+    [Range(0,1)] public float drag;
     public StructureData[] structures;
     public StructureData[] vegetation;
     public Gradient gradient;

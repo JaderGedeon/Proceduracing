@@ -94,15 +94,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7190981394081741856, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7190981394081741856, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7190981394081741856, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7190981394081741856, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -147,6 +147,10 @@ PrefabInstance:
     - target: {fileID: 7813947362434639844, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
       propertyPath: m_Name
       value: FinalRacePoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216333194664589889, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}
+      propertyPath: MaxHoverScale
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f3ba01fe3cb8e240b2e301fdf0fed1a, type: 3}

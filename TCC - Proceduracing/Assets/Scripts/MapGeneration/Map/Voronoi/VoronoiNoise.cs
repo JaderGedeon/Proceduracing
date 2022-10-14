@@ -69,6 +69,7 @@ public class VoronoiNoise
                 VoronoiMap[x, y] = new Vertex
                 {
                     friction = vertexBiomeInfo.friction,
+                    drag = vertexBiomeInfo.drag,
                     color = vertexBiomeInfo.color,
                     biomeList = vertexBiomeInfo.biomeList,
                 };
@@ -107,6 +108,7 @@ public class VoronoiNoise
     {
         public float friction;
         public Color color;
+        public float drag;
         public List<BiomeScriptableObject> biomeList;
 
         public VertexBiomeInfo()
@@ -116,21 +118,24 @@ public class VoronoiNoise
 
         public void SumValues(Region baseRegion, Region subRegion, float multiplier, float gradientTime)
         {
-            this.friction += baseRegion.biome.friction * (1 - multiplier);
-            this.color += baseRegion.biome.gradient.Evaluate(gradientTime) * (1 - multiplier);
-            this.biomeList.Add(baseRegion.biome);
+            friction += baseRegion.biome.friction * (1 - multiplier);
+            drag += baseRegion.biome.drag * (1 - multiplier);
+            color += baseRegion.biome.gradient.Evaluate(gradientTime) * (1 - multiplier);
+            biomeList.Add(baseRegion.biome);
 
-            this.friction += subRegion.biome.friction * multiplier;
-            this.color += subRegion.biome.gradient.Evaluate(gradientTime) * multiplier;
-            this.biomeList.Add(subRegion.biome);
+            friction += subRegion.biome.friction * multiplier;
+            drag += subRegion.biome.drag * multiplier;
+            color += subRegion.biome.gradient.Evaluate(gradientTime) * multiplier;
+            biomeList.Add(subRegion.biome);
         }
 
         public void SubstituteValue(Region region, float gradientTime)
         {
-            this.friction = region.biome.friction;
-            this.color = region.biome.gradient.Evaluate(gradientTime);
-            this.biomeList.Clear();
-            this.biomeList.Add(region.biome);
+            friction = region.biome.friction;
+            drag += region.biome.drag;
+            color = region.biome.gradient.Evaluate(gradientTime);
+            biomeList.Clear();
+            biomeList.Add(region.biome);
         }
     }
 }

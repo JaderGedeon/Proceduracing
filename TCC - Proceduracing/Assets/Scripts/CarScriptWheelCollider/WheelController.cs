@@ -58,6 +58,8 @@ public class WheelController : MonoBehaviour
                 // QQ coisa, divide pela escala  /
                 wheelColliders[i].forwardFriction = frictionCurve;
                 wheelColliders[i].sidewaysFriction = frictionCurve;
+                Debug.Log(MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag);
+                carRigidbody.drag = MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag;
             }
         }
         if (!carIsGrounded) {
