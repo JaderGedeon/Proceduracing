@@ -94,8 +94,9 @@ public class MapController : MonoBehaviour
 
     public void GenerateMesh()
     {
-        Mesh mesh = MeshGenerator.GenerateTerrainMesh(
-            vertexMapData, perlinData.HeightMultiplier, mapData.FlatShading);
+        Mesh mesh = 
+            MeshGenerator.GenerateTerrainMesh(vertexMapData, perlinData.HeightMultiplier, mapData.FlatShading);
+
         mapData.MeshFilter.sharedMesh = mesh;
         mapData.MeshCollider.sharedMesh = mesh;
     }
