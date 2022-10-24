@@ -7,6 +7,7 @@ public class WheelController : MonoBehaviour
 {
     private RidingInputManager ridingInputManager;
     private Vertex[,] mapFriction;
+    private CarParts carParts;
 
     [Header("Colliders")]
     [SerializeField] private WheelCollider[] wheelColliders = new WheelCollider[4];
@@ -15,11 +16,13 @@ public class WheelController : MonoBehaviour
     [SerializeField] private Transform[] wheels = new Transform[4];
 
     [Header("Settings")]
-    [SerializeField] private int motorTorque;
-    [SerializeField] private int brakeTorque;
+    [SerializeField] private int motorTorque; // Torque
+    [SerializeField] private int brakeTorque; // BrakeTorque
     [SerializeField] private float steeringMax;
     [SerializeField] private float steeringSpeed;
-    [SerializeField] private Rigidbody carRigidbody;
+    [SerializeField] private Rigidbody carRigidbody; // Mass & Drag
+
+    private float carPartDrag;
 
     private Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
 
@@ -41,6 +44,18 @@ public class WheelController : MonoBehaviour
             new Vector3(startPosition.x, gameObject.transform.position.y, startPosition.y);
 
         MapFrictionInfo = vertexMap;
+
+        ApplyCarParts();
+    }
+
+    public void ApplyCarParts()
+    {
+        carParts = CarParts.Instance;
+
+        motorTorque += carParts.PartsSum.Torque;
+        brakeTorque += carParts.PartsSum.BrakeTorque;
+        carRigidbody.mass += carParts.PartsSum.Mass;
+        carPartDrag = carParts.PartsSum.Drag;
     }
 
     private void UpdateWheelFricton()
@@ -54,16 +69,16 @@ public class WheelController : MonoBehaviour
                 carIsGrounded = true;
                 wheelColliders[i].GetGroundHit(out WheelHit hit);
                 WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
-                frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction;
+                frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction; // Stiffness
                 // QQ coisa, divide pela escala  /
                 wheelColliders[i].forwardFriction = frictionCurve;
                 wheelColliders[i].sidewaysFriction = frictionCurve;
-                Debug.Log(MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag);
-                carRigidbody.drag = MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag;
+                carRigidbody.drag = MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag + (carPartDrag / 1000);
             }
         }
         if (!carIsGrounded) {
             var carRotation = carRigidbody.transform.rotation;
+            carRigidbody.drag = 0;
             carRigidbody.rotation = Quaternion.Lerp(carRotation, Quaternion.Euler(0, carRotation.eulerAngles.y, 0), Time.deltaTime * 4f); //3
         }
     }

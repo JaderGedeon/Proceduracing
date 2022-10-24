@@ -52,16 +52,22 @@ public class TournamentView : MonoBehaviour
 
             if (room.NextRooms.Count > 0)
             {
+                var type = MapIconType.RACE;
+
+                if(room.Floor > 0 && room.Floor < Tournament.Floors - 1)
+                    if (prgn.Next(0, 100) > 70)
+                        type = MapIconType.GEAR;
+
                 var pos = GetPositionWithRandomness(room.PositionOnFloor, 0, room.Floor);
 
                 var newRoom = Instantiate(
-                    MapClickables[(int)MapIconType.RACE].gameObject,
+                    MapClickables[(int)type].gameObject,
                     pos,
                     Quaternion.identity,
                     transform);
 
                 var mapClickable = newRoom.GetComponent<MapClickable>();
-                mapClickable.Init(room, MapIconType.RACE);
+                mapClickable.Init(room, type);
 
                 mapClickables.Add(mapClickable);
                 ChangeMapIconProperties(room, mapClickable);

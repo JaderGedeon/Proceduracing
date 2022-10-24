@@ -105,7 +105,6 @@ public class MapClickable : MonoBehaviour
 
             if (iconType == MapIconType.BOSS)
             {
-                //GlobalOpponents.Instance
                 GlobalSeed.Instance.SetSeed(room.Seed);
                 SceneManager.LoadScene(1);
             }

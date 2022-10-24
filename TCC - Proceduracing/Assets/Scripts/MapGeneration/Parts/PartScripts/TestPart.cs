@@ -6,10 +6,10 @@ public class TestPart : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("Apertei");
-            PartGenerator.Instance.GeneratePart();
+            //PartGenerator.Instance.GeneratePart();
         }
     }
 }

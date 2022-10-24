@@ -39,19 +39,23 @@ public class PartGenerator : MonoBehaviour
     private static int avaliablePoints = 0;
 
     //Transformar em Singleton rapidão
-    public Part GeneratePart()
+    public void SetRandom()
+    { 
+        prgn = new System.Random(GlobalSeed.Instance.Seed);
+    }
+
+    public Part GeneratePart(PartType type, int floor, int podiumRank, bool IsEvent)
     {
-        //prgn = new System.Random(GlobalSeed.Instance.TournamentSeed);
-        prgn = new System.Random(new System.Random().Next(0,99999));
+        //prgn = new System.Random(new System.Random().Next(0,99999));
         var partSlots = GeneratePartPropertiesSlots();
 
         Part part = new Part
         {
             Rarity = (PartRarity)partSlots,
-            Type = (PartType)prgn.Next(0, System.Enum.GetValues(typeof(PartType)).Cast<int>().Max()),
+            Type = type,
         };
 
-        PointsCalculate(1, 1, false, part.Rarity);
+        PointsCalculate(floor, podiumRank, IsEvent, part.Rarity);
         Debug.Log($"Points to Spend: {avaliablePoints}");
         #region AssignPropertiesValue
 
@@ -68,13 +72,13 @@ public class PartGenerator : MonoBehaviour
                     part.Drag = AssignPropertie(DragCost, spendAll);
                     break;
                 case 1:
-                    part.Mass = AssignPropertie(MassCost, spendAll);
+                    part.Mass = (int)AssignPropertie(MassCost, spendAll);
                     break;
                 case 2:
-                    part.Torque = AssignPropertie(TorqueCost, spendAll);
+                    part.Torque = (int)AssignPropertie(TorqueCost, spendAll);
                     break;
                 case 3:
-                    part.BrakeTorque = AssignPropertie(BrakeCost, spendAll);
+                    part.BrakeTorque = (int)AssignPropertie(BrakeCost, spendAll);
                     break;
                 case 4:
                     part.Stiffness = AssignPropertie(StiffnessCost, spendAll);

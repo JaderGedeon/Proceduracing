@@ -75,8 +75,6 @@ public class VoronoiNoise
                 };
             }
         }
-
-        Debug.Log("aabc");
     }
 
     private class Region

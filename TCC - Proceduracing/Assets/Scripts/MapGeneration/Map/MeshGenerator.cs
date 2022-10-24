@@ -7,8 +7,6 @@ public class MeshGenerator : MonoBehaviour
 {
     public static Mesh GenerateTerrainMesh(Vertex[,] noiseMap, float heightMultiplier, bool flatShading)
     {
-        Debug.Log("Passou");
-
         Vector2Int meshSize = new Vector2Int(noiseMap.GetLength(0), noiseMap.GetLength(1));
 
         MeshData meshData = new MeshData(meshSize, flatShading);

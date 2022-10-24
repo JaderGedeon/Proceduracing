@@ -41,10 +41,8 @@ public class RaceSettingsData : MonoBehaviour
     private float CalculateRaceTime(float averageHeight, float averageFriction)
     {
         float frictionMultiplier = averageFriction >= 1 ? 1f : 2f - averageFriction;
-        Debug.Log(frictionMultiplier);
         float heightMultiplier = Mathf.Abs(averageHeight - 0.5f);
-        Debug.Log(averageHeight);
-        Debug.Log(heightMultiplier);
+
         float time = CalculateDistanceBetweenCheckPoints() * (frictionMultiplier + heightMultiplier) / 10;
         return time;
     }

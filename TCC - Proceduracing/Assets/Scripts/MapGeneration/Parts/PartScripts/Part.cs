@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Part
 {
-    public float Drag { get; set; }
-    public float Mass { get; set; }
-    public float Torque { get; set; }
-    public float BrakeTorque { get; set; }
-    public float Stiffness { get; set; }
-    public PartType Type { get; set; }
-    public PartRarity Rarity { get; set; }
+    public float Drag { get; set; } = 0;
+    public int Mass { get; set; } = 0;
+    public int Torque { get; set; } = 0;
+    public int BrakeTorque { get; set; } = 0;
+    public float Stiffness { get; set; } = 0;
+    public PartType Type { get; set; } = PartType.TIRES;
+    public PartRarity Rarity { get; set; } = PartRarity.COMMON;
     public GameObject Prefab { get; set; }
 
     public override string ToString() => $"Type:{Type}, Rarity{Rarity} | Drag:{Drag}, Mass:{Mass}, Torque:{Torque}, BrakeTorque:{BrakeTorque}, Stiffness:{Stiffness}";
