@@ -6484,7 +6484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   opponents:
   - time: 119.04801
-    difficulty: 25
+    difficulty: 15
     position: {fileID: 1019489897}
     order: {fileID: 207707826}
     clock: {fileID: 182054933}

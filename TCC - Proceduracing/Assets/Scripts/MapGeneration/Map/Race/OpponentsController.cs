@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class OpponentsController : MonoBehaviour
 {
@@ -24,10 +25,17 @@ public class OpponentsController : MonoBehaviour
 
         var humanizedTime = time * (1f + humanNormalize);
 
+        var tempList = new List<float>();
         for (int i = 0; i < opponents.Count; i++)
         {
-            float variation = prgn.Next(0, (int)(maxVariation * 100)) / 100f + 1f;
-            opponents[i].AssignTime(humanizedTime * variation);
+            tempList.Add(prgn.Next(0, (int)(maxVariation * 100)) / 100f + 1f);
+        }
+
+        tempList.Sort();
+
+        for (int i = 0; i < opponents.Count; i++)
+        {
+            opponents[i].AssignTime(humanizedTime * tempList[i]);
         }
 
         opponentsTimes = new float[opponents.Count];

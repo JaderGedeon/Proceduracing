@@ -16,7 +16,7 @@ MonoBehaviour:
   rarity: 0
   heightMultiplier: 0
   friction: 1.5
-  drag: 1
+  drag: 0
   structures:
   - {fileID: 11400000, guid: dcdab26768005594d86bd52dca3da3bd, type: 2}
   vegetation: []

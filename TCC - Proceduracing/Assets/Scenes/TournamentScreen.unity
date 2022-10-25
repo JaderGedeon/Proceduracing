@@ -592,10 +592,10 @@ MonoBehaviour:
   FloorMultiplier: 0.1
   PartRarityMultiplier: 0.2
   DefaultPoints: 100
-  DragCost: 1
+  DragCost: 2
   MassCost: 2
-  TorqueCost: 3
-  BrakeCost: 4
+  TorqueCost: 1
+  BrakeCost: 1
 --- !u!1 &1507461298
 GameObject:
   m_ObjectHideFlags: 0

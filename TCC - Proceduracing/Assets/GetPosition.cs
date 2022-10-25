@@ -18,7 +18,7 @@ public class GetPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        position.text = ClockController.position + "º";
+        position.text = ClockController.position + "º"; // Position
 
         foreach (Transform child in positionList[ClockController.position - 1].transform)
         {
