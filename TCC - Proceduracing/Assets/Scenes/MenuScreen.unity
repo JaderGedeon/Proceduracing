@@ -212,8 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partImages:
-  - {fileID: 21300000, guid: 9196b8179409c124fb61c0eeb2dfd2f3, type: 3}
   - {fileID: 21300000, guid: 3e1982219f58af4468c1b1da50534975, type: 3}
+  - {fileID: 21300000, guid: 9196b8179409c124fb61c0eeb2dfd2f3, type: 3}
   - {fileID: 21300000, guid: 7f27bdd6ba02ea640b49dad7c8b15962, type: 3}
 --- !u!4 &126092392
 Transform:
@@ -3031,6 +3031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e21b12c33ef41e4a89cc7dc68c648f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floor: 0
+  podiumRank: 0
+  isEvent: 0
 --- !u!4 &1135809867
 Transform:
   m_ObjectHideFlags: 0
@@ -3667,7 +3670,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: V.1.9.30
+  m_text: V.1.10.28
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f1a5c87402325f47b4b1aac428cc7e7, type: 2}
   m_sharedMaterial: {fileID: 8697115950873256557, guid: 0f1a5c87402325f47b4b1aac428cc7e7, type: 2}

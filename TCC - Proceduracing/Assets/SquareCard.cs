@@ -10,27 +10,10 @@ public class SquareCard : MonoBehaviour
     [SerializeField] private Image partIcon;
     [SerializeField] private TextMeshProUGUI partType;
 
-    private PartType type;
-    private PartRarity rarity;
-
-    public void Init(PartType type, PartRarity rarity)
+    public void Init(Part part)
     {
-        this.type = type;
-        this.rarity = rarity;
-        AssignCardValues(type, rarity);
-
-        void AssignCardValues(PartType type, PartRarity rarity)
-        {
-            backgroundImage.color = CardUtils.Instance.RarityToColour(rarity);
-            partIcon.sprite = CardUtils.Instance.PartIcon(type);
-            partType.text = CardUtils.Instance.PartName(type);
-        }
+        backgroundImage.color = CardUtils.Instance.RarityToColour(part.Rarity);
+        partIcon.sprite = CardUtils.Instance.PartIcon(part.Type);
+        partType.text = CardUtils.Instance.PartName(part.Type);
     }
-    /*
-    public void OnMouseDown()
-    {
-        TODO
-    }
-    */
-
 }

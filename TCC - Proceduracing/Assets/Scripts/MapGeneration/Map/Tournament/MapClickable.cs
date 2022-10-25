@@ -19,6 +19,7 @@ public class MapClickable : MonoBehaviour
     public void Init(TournamentMap.Room room, MapIconType iconType)
     {
         this.room = room;
+        this.iconType = iconType;
     }
 
     #region Animation
@@ -90,27 +91,27 @@ public class MapClickable : MonoBehaviour
 
     #endregion
 
-    private void OnMouseDown()
+    private void OnMouseUpAsButton()
     {
         if (IsClickable)
         {
             TournamentData.Instance.CurrentRoom = room;
             TournamentData.Instance.PassedRooms.Add(room);
 
-            if (iconType == MapIconType.RACE)
+            GlobalSeed.Instance.SetSeed(room.Seed);
+            switch (iconType)
             {
-                GlobalSeed.Instance.SetSeed(room.Seed);
-                SceneManager.LoadScene(1);
-            }
-
-            if (iconType == MapIconType.BOSS)
-            {
-                GlobalSeed.Instance.SetSeed(room.Seed);
-                SceneManager.LoadScene(1);
+                case MapIconType.RACE:
+                case MapIconType.BOSS:
+                    PartSceneLoader.isEvent = false;
+                    SceneManager.LoadScene(1);
+                    break;
+                case MapIconType.GEAR:
+                    PartSceneLoader.isEvent = true;
+                    SceneManager.LoadScene(4);
+                    break;
             }
         }
-
-        // Start the race;
     }
 
     #region Material

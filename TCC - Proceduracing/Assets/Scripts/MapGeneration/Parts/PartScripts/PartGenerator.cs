@@ -33,7 +33,6 @@ public class PartGenerator : MonoBehaviour
     [SerializeField] private float MassCost = 2f;
     [SerializeField] private float TorqueCost = 3f;
     [SerializeField] private float BrakeCost = 4f;
-    [SerializeField] private float StiffnessCost = 5f;
 
     private static System.Random prgn;
     private static int avaliablePoints = 0;
@@ -59,7 +58,8 @@ public class PartGenerator : MonoBehaviour
         Debug.Log($"Points to Spend: {avaliablePoints}");
         #region AssignPropertiesValue
 
-        var slotsNumber = new List<int> { 0, 1, 2, 3, 4 };
+        partSlots = partSlots == 4 ? 3 : partSlots;
+        var slotsNumber = new List<int> { 0, 1, 2, 3 };
 
         for (int i = 0; i <= partSlots; i++)
         {
@@ -79,9 +79,6 @@ public class PartGenerator : MonoBehaviour
                     break;
                 case 3:
                     part.BrakeTorque = (int)AssignPropertie(BrakeCost, spendAll);
-                    break;
-                case 4:
-                    part.Stiffness = AssignPropertie(StiffnessCost, spendAll);
                     break;
             }
 

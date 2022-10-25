@@ -1528,6 +1528,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c754a4522d55ad3429921ac4c6608586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  partImage: {fileID: 3748474741950062434}
+  backgroundImage: {fileID: 6836577928426536993}
+  partType: {fileID: 4809202620740751354}
+  cardBackground: {fileID: 736638593587403807}
+  torque: {fileID: 5691646318273540104}
+  brake: {fileID: 5683466974531210604}
+  drag: {fileID: 7448225435000074108}
+  mass: {fileID: 6468824003743638201}
 --- !u!1 &8678197830456026113
 GameObject:
   m_ObjectHideFlags: 0

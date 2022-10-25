@@ -5,10 +5,12 @@ using UnityEngine;
 public class carUntap : MonoBehaviour
 {
     private RidingInputManager ridingInputManager;
+    private Rigidbody rigidbody;
 
     void Start()
     {
         ridingInputManager = GetComponent<RidingInputManager>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -19,7 +21,10 @@ public class carUntap : MonoBehaviour
             Vector3 position = gameObject.transform.position;
             position.y += 1;
             //Desvirar voltado para o ponto que ficou caído
-            gameObject.transform.SetPositionAndRotation(position, Quaternion.identity);
+            gameObject.transform.SetPositionAndRotation(position, gameObject.transform.rotation);
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
+
         }
     }
 }

@@ -46,14 +46,7 @@ public class CardUtils : MonoBehaviour
     {
          { PartType.CHASSIS,     "Chassi" },
          { PartType.TIRES,       "Pneus" },
-         { PartType.SPOILERS,    "Motor" },
-     };
-
-    private readonly Dictionary<PartType, Sprite> partIcon = new Dictionary<PartType, Sprite>()
-    {
-         { PartType.CHASSIS,     Instance.partImages[0] },
-         { PartType.TIRES,       Instance.partImages[1] },
-         { PartType.SPOILERS,    Instance.partImages[2] },
+         { PartType.ENGINE,    "Motor" },
      };
 
     public Color32 RarityToColour(PartRarity rarity)
@@ -72,5 +65,14 @@ public class CardUtils : MonoBehaviour
 
     public string PartName(PartType part) => partName[part];
 
-    public Sprite PartIcon(PartType part) => partIcon[part];
+    public Sprite PartIcon(PartType part)
+    {
+        return part switch
+        {
+            PartType.TIRES => partImages[0],
+            PartType.CHASSIS => partImages[1],
+            PartType.ENGINE => partImages[2],
+            _ => partImages[2],
+        };
+    }
 }

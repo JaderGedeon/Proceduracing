@@ -16,6 +16,7 @@ MonoBehaviour:
   rarity: 0
   heightMultiplier: 1
   friction: 1.5
+  drag: 0.05
   structures:
   - {fileID: 11400000, guid: 5ab9985546f714b4ea823783c06ce3f8, type: 2}
   - {fileID: 11400000, guid: d94a0b44e9e9cbe4fa93a21d28a1194a, type: 2}

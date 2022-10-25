@@ -554,7 +554,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1394706842}
   - component: {fileID: 1394706843}
-  - component: {fileID: 1394706841}
   m_Layer: 0
   m_Name: PartGenerator
   m_TagString: Untagged
@@ -562,18 +561,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1394706841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394706840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6bdaf0b0bfa89347bd86d69de160203, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1394706842
 Transform:
   m_ObjectHideFlags: 0
@@ -609,7 +596,6 @@ MonoBehaviour:
   MassCost: 2
   TorqueCost: 3
   BrakeCost: 4
-  StiffnessCost: 5
 --- !u!1 &1507461298
 GameObject:
   m_ObjectHideFlags: 0

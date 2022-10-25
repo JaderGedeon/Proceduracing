@@ -22,6 +22,8 @@ public class TournamentView : MonoBehaviour
         random = new System.Random(GlobalSeed.Instance.TournamentSeed);
         Tournament = TournamentData.Instance;
         DisplayMap();
+
+        ClockController.position = 0;
     }
 
     public void DisplayMap()
