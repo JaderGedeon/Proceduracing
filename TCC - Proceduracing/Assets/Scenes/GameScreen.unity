@@ -4897,9 +4897,9 @@ Camera:
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 54.12, y: 25.59}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 18
+  m_FocalLength: 30.889862
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -4908,7 +4908,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 67.380135
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -7203,6 +7203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityLabel: {fileID: 820290268}
+  mainCamera: {fileID: 1287448947}
 --- !u!33 &5187626376771392477
 MeshFilter:
   m_ObjectHideFlags: 0

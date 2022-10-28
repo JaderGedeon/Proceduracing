@@ -10,11 +10,14 @@ public class PartCard : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI partType;
     [SerializeField] private Image cardBackground;
+    [SerializeField] private Image[] stars;
+    [Space(5)]
 
     [SerializeField] private TextMeshProUGUI torque;
     [SerializeField] private TextMeshProUGUI brake;
     [SerializeField] private TextMeshProUGUI drag;
     [SerializeField] private TextMeshProUGUI mass;
+
 
     public void Init(Part part)
     {
@@ -26,6 +29,12 @@ public class PartCard : MonoBehaviour
             backgroundImage.color = CardUtils.Instance.RarityToBackgroundColour(rarity);
             partType.text = CardUtils.Instance.PartName(type);
             cardBackground.color = CardUtils.Instance.RarityToColour(rarity);
+
+            for (int i = (int)rarity; i < 4; i++)
+            {
+                stars[i].GetComponent<LayoutElement>().ignoreLayout = true;
+                stars[i].enabled = false;
+            }
 
             torque.text = $"{part.Torque}";
             brake.text = $"{part.BrakeTorque}";
