@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.31098798, g: 0.26552942, b: 0.41251227, a: 1}
+  m_IndirectSpecularColor: {r: 0.31101197, g: 0.26591584, b: 0.41372183, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3810,6 +3810,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &1048957255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6832,8 +6833,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 0.9919388, g: 0.8392157, b: 1, a: 1}
+  m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7204,6 +7205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityLabel: {fileID: 820290268}
   mainCamera: {fileID: 1287448947}
+  speedLerpDuration: 20
 --- !u!33 &5187626376771392477
 MeshFilter:
   m_ObjectHideFlags: 0

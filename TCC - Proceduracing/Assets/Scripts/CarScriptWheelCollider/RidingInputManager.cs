@@ -10,6 +10,22 @@ public class RidingInputManager : MonoBehaviour
     public float turning;
     public bool untap;
 
+    Quaternion deviceRotation;
+
+    private void Start()
+    {
+        Input.gyro.enabled = true;
+        deviceRotation = DeviceRotation.Get();
+    }
+
+    private void Update()
+    {
+        deviceRotation = DeviceRotation.Get();
+
+        acceleration = deviceRotation.z;
+        turning = deviceRotation.x;
+    }
+
     public void Acceleration(InputAction.CallbackContext ctx)
     {
         acceleration = ctx.ReadValue<float>();
