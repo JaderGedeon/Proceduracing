@@ -72,7 +72,7 @@ public class PartGenerator : MonoBehaviour
                     part.Drag = AssignPropertie(DragCost, spendAll);
                     break;
                 case 1:
-                    part.Mass = (int)AssignPropertie(MassCost, spendAll);
+                    part.Mass -= (int)AssignPropertie(MassCost, spendAll);
                     break;
                 case 2:
                     part.Torque = (int)AssignPropertie(TorqueCost, spendAll);

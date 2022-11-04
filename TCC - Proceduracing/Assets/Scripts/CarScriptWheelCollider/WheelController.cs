@@ -22,7 +22,12 @@ public class WheelController : MonoBehaviour
     [SerializeField] private float steeringSpeed;
     [SerializeField] private Rigidbody carRigidbody; // Mass & Drag
 
+    [Header("Other")]
+    [SerializeField] private Transform structuresParent; 
+
     private float carPartDrag;
+
+    public bool IsCarOnGround = false;
 
     private Vertex[,] MapFrictionInfo { get => mapFriction; set => mapFriction = value; }
 
@@ -45,6 +50,13 @@ public class WheelController : MonoBehaviour
 
         MapFrictionInfo = vertexMap;
 
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.transform.parent == structuresParent)
+                Destroy(hitCollider.gameObject);
+        }
+
         ApplyCarParts();
     }
 
@@ -54,19 +66,19 @@ public class WheelController : MonoBehaviour
 
         motorTorque += carParts.PartsSum.Torque;
         brakeTorque += carParts.PartsSum.BrakeTorque;
-        carRigidbody.mass += carParts.PartsSum.Mass;
+        carRigidbody.mass = carParts.PartsSum.Mass;
         carPartDrag = carParts.PartsSum.Drag;
     }
 
     private void UpdateWheelFricton()
     {
-        var carIsGrounded = false;
+        IsCarOnGround = false;
 
         for (int i = 0; i < wheelColliders.Length; i++)
         {
             if (wheelColliders[i].isGrounded && MapFrictionInfo != null)
             {
-                carIsGrounded = true;
+                IsCarOnGround = true;
                 wheelColliders[i].GetGroundHit(out WheelHit hit);
                 WheelFrictionCurve frictionCurve = wheelColliders[i].forwardFriction;
                 frictionCurve.stiffness = mapFriction[(int)hit.point.x, (int)hit.point.z].friction; // Stiffness
@@ -76,7 +88,7 @@ public class WheelController : MonoBehaviour
                 carRigidbody.drag = MapFrictionInfo[(int)hit.point.x, (int)hit.point.z].drag + (carPartDrag / 1000);
             }
         }
-        if (!carIsGrounded) {
+        if (!IsCarOnGround) {
             var carRotation = carRigidbody.transform.rotation;
             carRigidbody.drag = 0;
             carRigidbody.rotation = Quaternion.Lerp(carRotation, Quaternion.Euler(0, carRotation.eulerAngles.y, 0), Time.deltaTime * 4f); //3

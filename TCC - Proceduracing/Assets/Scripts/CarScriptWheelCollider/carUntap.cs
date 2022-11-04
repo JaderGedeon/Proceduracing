@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class carUntap : MonoBehaviour
 {
-    private RidingInputManager ridingInputManager;
     private Rigidbody rigidbody;
+
+    private float reloadTime = 1f;
 
     void Start()
     {
-        ridingInputManager = GetComponent<RidingInputManager>();
         rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (/*ridingInputManager.untap*/ Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && reloadTime < 0f)
         {
             Vector3 position = gameObject.transform.position;
             position.y += 1;
@@ -24,7 +24,10 @@ public class carUntap : MonoBehaviour
             gameObject.transform.SetPositionAndRotation(position, gameObject.transform.rotation);
             rigidbody.velocity = Vector3.zero;
             rigidbody.angularVelocity = Vector3.zero;
-
+            reloadTime = 1f;
         }
+
+        if (reloadTime > 0f)
+            reloadTime -= Time.deltaTime;
     }
 }

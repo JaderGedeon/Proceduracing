@@ -57,6 +57,7 @@ public class TournamentData : MonoBehaviour
         PassedRooms = new List<TournamentMap.Room>();
     }
 
+    /*
     private void OnDrawGizmos()
     {
         foreach (var room in RoomMap)
@@ -84,4 +85,5 @@ public class TournamentData : MonoBehaviour
             }
         }
     }
+    */
 }
