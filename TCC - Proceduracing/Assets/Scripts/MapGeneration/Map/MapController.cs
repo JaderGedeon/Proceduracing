@@ -45,6 +45,8 @@ public class MapController : MonoBehaviour
         StructuresPlacement();
 
         wheelController.Init(vertexMapData, raceSettingsData.CheckPointPosition[0]);
+
+        AudioManager.PlaySound(AudioManager.Sound.RunMusic);
     }
 
     private void StructuresPlacement()

@@ -12,6 +12,11 @@ public class RaceSelector : MonoBehaviour
     [SerializeField] public GameObject tournament;
     [SerializeField] public TextMeshProUGUI text;
 
+    private void Start()
+    {
+        AudioManager.PlaySound(AudioManager.Sound.MenuMusic);
+    }
+
     public void Back()
     {
         selector.SetActive(true);
@@ -22,6 +27,7 @@ public class RaceSelector : MonoBehaviour
         tournament.SetActive(false);
 
         text.text = "Proceduracing";
+        PlayButtonSound();
     }
 
     public void QuickRaces()
@@ -32,7 +38,8 @@ public class RaceSelector : MonoBehaviour
         BackButton.SetActive(true);
         quickRace.SetActive(true);
 
-        text.text = "Corridas";
+        text.text = "Corrida Rápida";
+        PlayButtonSound();
     }
 
     public void Tournaments()
@@ -44,6 +51,9 @@ public class RaceSelector : MonoBehaviour
         tournament.SetActive(true);
 
         text.text = "Torneio";
+        PlayButtonSound();
     }
+
+    public void PlayButtonSound() => AudioManager.PlaySound(AudioManager.Sound.ClickButton);
 
 }

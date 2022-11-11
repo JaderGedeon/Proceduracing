@@ -286,7 +286,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Torneio
+  m_text: "Torneio\nAleat\xF3rio"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
   m_sharedMaterial: {fileID: -1694262097948980375, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
@@ -427,7 +427,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.2}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -441,7 +441,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 160960795}
   m_OnClick:
     m_PersistentCalls:
@@ -687,7 +687,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 279559433}
+        m_TargetAssemblyTypeName: TournamentButton, Assembly-CSharp
+        m_MethodName: ChangeButtonAlpha
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -882,7 +894,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 900839074}
+        m_TargetAssemblyTypeName: QuickRace, Assembly-CSharp
+        m_MethodName: ChangeButtonAlpha
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -991,6 +1015,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 263411763}
+  seedButton: {fileID: 160960794}
+  seedText: {fileID: 1541331894}
 --- !u!1 &389416873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1470,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Corrida
+  m_text: "Corrida\nR\xE1pida"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
   m_sharedMaterial: {fileID: -1694262097948980375, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
@@ -1560,7 +1586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Seed: 000000'
+  m_text: "C\xF3digo: 123456"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a899350357a984f4b91494ba990aef57, type: 2}
   m_sharedMaterial: {fileID: 3286531786845455554, guid: a899350357a984f4b91494ba990aef57, type: 2}
@@ -1948,7 +1974,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.2}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1962,7 +1988,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 775846943}
   m_OnClick:
     m_PersistentCalls:
@@ -2034,7 +2060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &787725917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2207,7 +2233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Seed: 000000'
+  m_text: "C\xF3digo: 123456"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a899350357a984f4b91494ba990aef57, type: 2}
   m_sharedMaterial: {fileID: 3286531786845455554, guid: a899350357a984f4b91494ba990aef57, type: 2}
@@ -2565,6 +2591,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 276092549}
+  seedButton: {fileID: 775846942}
+  seedText: {fileID: 1358872978}
 --- !u!1 &925928835
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,7 +2735,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 49d2ad6bd68b4e54887a6791d0246ebe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa96af41e2fa01345b7752098fbcfff2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3105,7 +3133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Corrida \nR\xE1pida"
+  m_text: "Corrida \nAleat\xF3ria"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
   m_sharedMaterial: {fileID: -1694262097948980375, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
@@ -3379,7 +3407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -438.16016, y: 362.91992}
+  m_AnchoredPosition: {x: -438.16016, y: 368.44}
   m_SizeDelta: {x: 783.6778, y: 94.1605}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230860129
@@ -3436,7 +3464,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 32
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3465,7 +3493,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -515.59924, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3546,7 +3574,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3670,7 +3698,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: V.1.10.28
+  m_text: v2.0.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f1a5c87402325f47b4b1aac428cc7e7, type: 2}
   m_sharedMaterial: {fileID: 8697115950873256557, guid: 0f1a5c87402325f47b4b1aac428cc7e7, type: 2}
@@ -3804,7 +3832,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Torneio
+  m_text: 'Modo
+
+    Torneio'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
   m_sharedMaterial: {fileID: -1694262097948980375, guid: 1bc234836b6d6664c8f6c69197ece156, type: 2}
@@ -3948,7 +3978,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.2}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4291,6 +4321,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1881826186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1881826188}
+  - component: {fileID: 1881826187}
+  m_Layer: 0
+  m_Name: AudioClipHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1881826187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881826186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf34c9d2d8a96e64d9b4d91059210cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicVolume: 0.5
+  SFXVolume: 0.75
+  soundAudioClipArray:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: f76c38168c89ae144bfef9d677e0d5ad, type: 3}
+    audioType: 0
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: da871d22530a77c4381481d39abdcf04, type: 3}
+    audioType: 0
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 6f4c4f0f977506d46b77a6e1324eaa23, type: 3}
+    audioType: 1
+--- !u!4 &1881826188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881826186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 112.60118, y: 13.435348, z: 174.94421}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1889566434
 GameObject:
   m_ObjectHideFlags: 0

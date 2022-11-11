@@ -26,13 +26,13 @@ public class PartGenerator : MonoBehaviour
     [SerializeField] private float eventMultiplier = 0.5f;
     [SerializeField] private float FloorMultiplier = 0.1f;
     [SerializeField] private float PartRarityMultiplier = 0.2f;
-    [SerializeField] private int DefaultPoints = 100;
+    [SerializeField] private int DefaultPoints = 80;
 
     [Header("Properties Cost")]
-    [SerializeField] private float DragCost = 1f;
+    [SerializeField] private float DragCost = 2f;
     [SerializeField] private float MassCost = 2f;
-    [SerializeField] private float TorqueCost = 3f;
-    [SerializeField] private float BrakeCost = 4f;
+    [SerializeField] private float TorqueCost = 5f;
+    [SerializeField] private float BrakeCost = 3f;
 
     private static System.Random prgn;
     private static int avaliablePoints = 0;
@@ -110,7 +110,7 @@ public class PartGenerator : MonoBehaviour
 
         while (slots < 4)
         {
-            if (prgn.Next(1, 100) < 50)
+            if (prgn.Next(1, 100) < 60)
                 break;
 
             slots++;
