@@ -5,7 +5,7 @@ using UnityEngine;
 public class Part
 {
     public float Drag { get; set; } = 0;
-    public int Mass { get; set; } = 850;
+    public int Mass { get; set; } = 900;
     public int Torque { get; set; } = 0;
     public int BrakeTorque { get; set; } = 0;
     public PartType Type { get; set; } = PartType.TIRES;

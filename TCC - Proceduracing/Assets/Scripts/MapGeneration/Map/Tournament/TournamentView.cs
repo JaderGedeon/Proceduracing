@@ -57,7 +57,7 @@ public class TournamentView : MonoBehaviour
                 var type = MapIconType.RACE;
 
                 if(room.Floor > 0 && room.Floor < Tournament.Floors - 1)
-                    if (prgn.Next(0, 100) > 70)
+                    if (prgn.Next(0, 100) > 80)
                         type = MapIconType.GEAR;
 
                 var pos = GetPositionWithRandomness(room.PositionOnFloor, 0, room.Floor);
