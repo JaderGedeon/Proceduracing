@@ -10,6 +10,9 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject playAgain;
 
+    private AudioClip clip;
+    private float time;
+
     // Update is called once per frame
     void Update()
     {
@@ -30,5 +33,16 @@ public class PauseMenu : MonoBehaviour
             playAgain.SetActive(false);
 
         Time.timeScale = isPaused ? 0 : 1;
+
+        if (isPaused)
+        {
+            var currentMusic = AudioManager.GetCurrentMusic();
+            clip = currentMusic.Item1;
+            time = currentMusic.Item2;
+            AudioManager.PlaySound(AudioManager.Sound.PauseMusic);
+        }
+        else {
+            AudioManager.PlaySound(clip, time);
+        }
     }
 }

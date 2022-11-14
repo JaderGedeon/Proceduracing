@@ -24,6 +24,7 @@ public class TournamentView : MonoBehaviour
         DisplayMap();
 
         ClockController.position = 0;
+        AudioManager.PlaySound(AudioManager.Sound.TournamentMusic);
     }
 
     public void DisplayMap()

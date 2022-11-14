@@ -7186,9 +7186,9 @@ MonoBehaviour:
   - {fileID: 313010987}
   - {fileID: 768452453}
   motorTorque: 850
-  brakeTorque: 350
-  steeringMax: 15
-  steeringSpeed: 3.5
+  brakeTorque: 3000
+  steeringMax: 20
+  steeringSpeed: 5
   carRigidbody: {fileID: 2938110245874689369}
   structuresParent: {fileID: 136408946}
   IsCarOnGround: 0

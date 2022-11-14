@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4354,12 +4354,33 @@ MonoBehaviour:
   SFXVolume: 0.75
   soundAudioClipArray:
   - sound: 0
-    audioClip: {fileID: 8300000, guid: f76c38168c89ae144bfef9d677e0d5ad, type: 3}
+    audioClip: {fileID: 8300000, guid: c15cba60dba825b4ca2739ad9a9b9c5b, type: 3}
     audioType: 0
   - sound: 1
-    audioClip: {fileID: 8300000, guid: da871d22530a77c4381481d39abdcf04, type: 3}
+    audioClip: {fileID: 8300000, guid: dc42f2edaeeb3f14cb8002b7a6c95a91, type: 3}
     audioType: 0
   - sound: 2
+    audioClip: {fileID: 8300000, guid: 1808808c28f0e004aa80ef0da8ac77e5, type: 3}
+    audioType: 0
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 0e92f7961882ecf41a568ffac88e7c3b, type: 3}
+    audioType: 0
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: 067c05e4f38a2ca4a88ef1f816173337, type: 3}
+    audioType: 0
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: 8ace2111ebab6e14da55af6686104d8c, type: 3}
+    audioType: 0
+  - sound: 6
+    audioClip: {fileID: 8300000, guid: cc07db5f36e972e40bcb159e49b5b0d4, type: 3}
+    audioType: 0
+  - sound: 7
+    audioClip: {fileID: 8300000, guid: 211faa4f0f23f7244b6ef8f721a2ea1d, type: 3}
+    audioType: 0
+  - sound: 8
+    audioClip: {fileID: 8300000, guid: 97857b6939f7d2f4e996a645db65b251, type: 3}
+    audioType: 0
+  - sound: 9
     audioClip: {fileID: 8300000, guid: 6f4c4f0f977506d46b77a6e1324eaa23, type: 3}
     audioType: 1
 --- !u!4 &1881826188

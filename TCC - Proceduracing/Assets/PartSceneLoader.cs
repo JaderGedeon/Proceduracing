@@ -13,6 +13,8 @@ public class PartSceneLoader : MonoBehaviour
 
     void Start()
     {
+        AudioManager.PlaySound(AudioManager.Sound.PartsMusic);
+
         CarParts.Instance.floor = TournamentData.Instance.CurrentRoom.Floor;
         CarParts.Instance.podiumRank = ClockController.position;
         Debug.Log(CarParts.Instance.podiumRank);

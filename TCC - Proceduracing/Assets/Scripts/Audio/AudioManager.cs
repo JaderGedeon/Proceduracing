@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,18 @@ public static class AudioManager
     public enum Sound
     {
         MenuMusic,
-        RunMusic,
+        TournamentMusic,
+        PauseMusic,
+
+        Gameplay1Music,
+        Gameplay2Music,
+        Gameplay3Music,
+
+        PartsMusic,
+
+        ResultsVictoryMusic,
+        ResultsLostMusic,
+
         ClickButton,
     }
 
@@ -17,6 +29,12 @@ public static class AudioManager
     {
         Music,
         SFX,
+    }
+
+    public static Tuple<AudioClip, float> GetCurrentMusic()
+    {
+        var source = musicGameObject.GetComponent<AudioSource>();
+        return new Tuple<AudioClip, float>(source.clip, source.time);
     }
 
 
@@ -33,14 +51,29 @@ public static class AudioManager
             audioSource.clip = soundClip.audioClip;
             audioSource.volume = AudioClips.Instance.MusicVolume;
             audioSource.Play();
-            Object.Destroy(musicGameObject);
+            UnityEngine.Object.Destroy(musicGameObject);
             musicGameObject = soundGameObject;
         }
         else
         {
             audioSource.PlayOneShot(soundClip.audioClip, AudioClips.Instance.SFXVolume);
-            Object.Destroy(soundGameObject, soundClip.audioClip.length);
+            UnityEngine.Object.Destroy(soundGameObject, soundClip.audioClip.length);
         }
+    }
+
+    public static void PlaySound(AudioClip clip, float time)
+    {
+        GameObject soundGameObject = new GameObject("SoundObject");
+        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
+
+        audioSource.loop = true;
+        audioSource.clip = clip;
+        audioSource.volume = AudioClips.Instance.MusicVolume;
+        audioSource.time = time;
+        audioSource.Play();
+        UnityEngine.Object.Destroy(musicGameObject);
+        musicGameObject = soundGameObject;
+
     }
 
     private static AudioClips.SoundAudioClip GetSoundAudioClip(Sound sound)

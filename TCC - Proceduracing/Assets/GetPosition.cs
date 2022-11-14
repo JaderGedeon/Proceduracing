@@ -44,10 +44,12 @@ public class GetPosition : MonoBehaviour
                 }
             }
         }
+        AudioManager.PlaySound(AudioManager.Sound.ResultsVictoryMusic);
 
         if (ClockController.position == 4)
         {
             backGround.SetActive(false);
+            AudioManager.PlaySound(AudioManager.Sound.ResultsLostMusic);
         }
 
         if (GlobalSeed.Instance.RaceType == RaceType.TOURNAMENT)
@@ -56,8 +58,10 @@ public class GetPosition : MonoBehaviour
             {
                 backGround.SetActive(false);
                 FailBackToMenu.SetActive(true);
+                AudioManager.PlaySound(AudioManager.Sound.ResultsLostMusic);
                 if (ClockController.position != 4)
                 {
+                    AudioManager.PlaySound(AudioManager.Sound.ResultsVictoryMusic);
                     failBackGround.SetActive(false);
                 }
                 return;
