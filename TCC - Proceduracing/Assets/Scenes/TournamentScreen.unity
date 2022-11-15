@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -771,6 +771,18 @@ MonoBehaviour:
   MassCost: 2
   TorqueCost: 1
   BrakeCost: 1
+  chassisPart:
+  - {fileID: 2186271171382578129, guid: 0e6af99704c857b4fbd0fb08be32b61f, type: 3}
+  - {fileID: 1743396640683869531, guid: 6fd4c07a0392c5d4aad2149104f04fe9, type: 3}
+  - {fileID: 6872746127802842611, guid: 47467b888e262a24ebfc09faf1c1ab18, type: 3}
+  - {fileID: 1189976075759887681, guid: 3237e0338b4d2fc4eaf63ac4e9b8e0ca, type: 3}
+  - {fileID: 8458150499603988110, guid: 9cdd5a877fa5d3245bba7ac587f1d798, type: 3}
+  wheelPart:
+  - {fileID: 4846742458751341025, guid: 8ff489747d9547d4693471b5b6d9adc9, type: 3}
+  - {fileID: 6555475032197400141, guid: 091118cbbeab6f547870769daa5adb9f, type: 3}
+  - {fileID: 5748550986140379209, guid: 7ab3a7acfec5265489b63268028f5f62, type: 3}
+  - {fileID: 8056686162003552888, guid: 483edbcb1e4e1d149a96527e1890a497, type: 3}
+  - {fileID: 72160941600872799, guid: 0dfc8f20448e8c644abb63d885cbf9b0, type: 3}
 --- !u!1 &1507461298
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,10 @@ public class PartGenerator : MonoBehaviour
     [SerializeField] private float TorqueCost = 5f;
     [SerializeField] private float BrakeCost = 3f;
 
+    [Header("Prefab Parts")]
+    [SerializeField] private GameObject[] chassisPart;
+    [SerializeField] private GameObject[] wheelPart;
+
     private static System.Random prgn;
     private static int avaliablePoints = 0;
 
@@ -86,7 +90,16 @@ public class PartGenerator : MonoBehaviour
         }
         #endregion
 
-        // Falta a Mesh
+        if (part.Type == PartType.CHASSIS)
+        {
+            part.Prefab = chassisPart[prgn.Next(0, 5)];
+        }
+
+        if (part.Type == PartType.TIRES)
+        {
+            part.Prefab = wheelPart[prgn.Next(0, 5)];
+        }
+
         Debug.Log(part.ToString());
 
         return part;
