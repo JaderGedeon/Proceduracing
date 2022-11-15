@@ -11,6 +11,7 @@ public class PartCard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI partType;
     [SerializeField] private Image cardBackground;
     [SerializeField] private Image[] stars;
+    [SerializeField] private Transform prefabParent;
     [Space(5)]
 
     [SerializeField] private TextMeshProUGUI torque;
@@ -29,6 +30,13 @@ public class PartCard : MonoBehaviour
             backgroundImage.color = CardUtils.Instance.RarityToBackgroundColour(rarity);
             partType.text = CardUtils.Instance.PartName(type);
             cardBackground.color = CardUtils.Instance.RarityToColour(rarity);
+
+            if (part.Prefab != null)
+                Instantiate(part.Prefab, prefabParent);
+            else {
+                partImage.rectTransform.localPosition = Vector3.zero;
+                partImage.rectTransform.localScale = Vector3.one;
+            }
 
             for (int i = (int)rarity; i < 4; i++)
             {
