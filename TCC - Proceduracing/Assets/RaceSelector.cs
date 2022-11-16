@@ -10,6 +10,7 @@ public class RaceSelector : MonoBehaviour
     [SerializeField] public GameObject BackButton;
     [SerializeField] public GameObject quickRace;
     [SerializeField] public GameObject tournament;
+    [SerializeField] public GameObject tutorial;
     [SerializeField] public TextMeshProUGUI text;
 
     private void Start()
@@ -25,6 +26,7 @@ public class RaceSelector : MonoBehaviour
         BackButton.SetActive(false);
         quickRace.SetActive(false);
         tournament.SetActive(false);
+        tutorial.SetActive(false);
 
         text.text = "Proceduracing";
         PlayButtonSound();
@@ -51,6 +53,18 @@ public class RaceSelector : MonoBehaviour
         tournament.SetActive(true);
 
         text.text = "Torneio";
+        PlayButtonSound();
+    }
+
+    public void Tutorial()
+    {
+        selector.SetActive(false);
+        QuitButton.SetActive(false);
+
+        BackButton.SetActive(true);
+        tutorial.SetActive(true);
+
+        text.text = "Tutorial";
         PlayButtonSound();
     }
 
