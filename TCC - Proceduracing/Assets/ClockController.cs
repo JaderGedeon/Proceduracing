@@ -5,7 +5,7 @@ using TMPro;
 
 public class ClockController : MonoBehaviour
 {
-    public static int position = 1;
+    public static int position = 0;
 
     public TextMeshProUGUI clock;
     public OpponentsController opponentsController;

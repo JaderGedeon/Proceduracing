@@ -7,11 +7,18 @@ public class GetPosition : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI position;
     [SerializeField] private List<GameObject> positionList;
+    [SerializeField] private GameObject backGround;
+    [SerializeField] private GameObject failBackGround;
+
+
+    [SerializeField] private GameObject QuickRaceCanvas;
+    [SerializeField] private GameObject NextRaceTournament;
+    [SerializeField] private GameObject FailBackToMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        position.text = ClockController.position + "º";
+        position.text = ClockController.position + "º"; // Position
 
         foreach (Transform child in positionList[ClockController.position - 1].transform)
         {
@@ -36,6 +43,42 @@ public class GetPosition : MonoBehaviour
                     child.GetComponent<TextMeshProUGUI>().text = ConvertTime(opponents[i]);
                 }
             }
+        }
+        AudioManager.PlaySound(AudioManager.Sound.ResultsVictoryMusic);
+
+        if (ClockController.position == 4)
+        {
+            backGround.SetActive(false);
+            AudioManager.PlaySound(AudioManager.Sound.ResultsLostMusic);
+        }
+
+        if (GlobalSeed.Instance.RaceType == RaceType.TOURNAMENT)
+        {
+            if (TournamentData.Instance.CurrentRoom.Floor == TournamentData.Instance.Floors)
+            {
+                backGround.SetActive(false);
+                FailBackToMenu.SetActive(true);
+                AudioManager.PlaySound(AudioManager.Sound.ResultsLostMusic);
+                if (ClockController.position != 4)
+                {
+                    AudioManager.PlaySound(AudioManager.Sound.ResultsVictoryMusic);
+                    failBackGround.SetActive(false);
+                }
+                return;
+            }
+
+            if (ClockController.position == 4)
+            {
+                FailBackToMenu.SetActive(true);
+            }
+            else
+            {
+                NextRaceTournament.SetActive(true);
+            }
+        } 
+        else
+        {
+            QuickRaceCanvas.SetActive(true);
         }
     }
 
